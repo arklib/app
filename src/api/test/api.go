@@ -3,14 +3,14 @@ package test
 import (
 	. "github.com/arklib/ark"
 
-	"app/src"
+	. "app/src"
 )
 
 type Api struct {
-	*src.App
+	*App
 }
 
-func New(app *src.App) *Api {
+func New(app *App) *Api {
 	api := &Api{app}
 	router := app.HttpServer
 

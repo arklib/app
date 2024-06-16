@@ -1,8 +1,10 @@
 package dal
 
-import "app/src"
+import (
+	. "app/src"
+)
 
-func Update(app *src.App) {
+func Update(app *App) {
 
 	Migrate(app.DB)
 	if app.IsDev() {
