@@ -1,0 +1,90 @@
+mode = "dev"
+# lang: zh | en
+lang = "zh"
+
+[logger]
+file = "private/logs/app.log"
+# level: trace | debug | info | notice | warn | error | fatal
+level = "info"
+# maxAge: days
+maxAge = 30
+# maxSize: MB
+maxSize = 128
+# maxBackups: files
+maxBackups = 64
+
+[registry]
+# driver: nacos | etcd
+driver = "nacos"
+# addrs: ["ip:port"]
+addrs = ["127.0.0.1:8848"]
+namespace = "public"
+username = 'nacos'
+password = 'nacos'
+# nacos log dir
+logDir = "private/logs"
+# nacos cache dir
+cacheDir = "private/data"
+
+[httpServer]
+enable = true
+addr = ":8888"
+usePprof = false
+# recover panic
+useRecovery = true
+# hertz: default cors
+useCORS = true
+# etag
+useEtag = true
+# gzip level: (1~9)compression, (-1)default compression, (0)disable
+useGzip = 1
+# hertz: access log
+useAccessLog = true
+# file route
+useFileRoutes = [
+    # path: route path, root: file root dir
+    { path = "/", root = "public" }
+]
+
+[rpcServer]
+enable = false
+name = "shop"
+addr = ":8889"
+# HttpRoute: POST {RPCServer.Name}/{ApiPath}
+useHttp = true
+# recover panic
+useRecovery = true
+# validate api input
+useValidate = true
+# tracing rpc
+useTracing = true
+# codec: frugal | sonic | gojson
+useCodec = "frugal"
+
+[rpcServer.useCodeGen]
+# generate rpc client code
+enable = true
+output = "src/hub/shop"
+
+[rpcClient]
+enable = false
+timeout = "30s"
+# discover rpc service names
+services = ["shop"]
+# tracing rpc
+useTracing = true
+# codec: frugal | sonic | gojson
+useCodec = "frugal"
+
+[auth]
+# expires: 1h(our) | 1m(inute) | 1s(econd)
+expires = "72h"
+secretKey = ""
+
+[db]
+dsn = "root:password@tcp(127.0.0.1:3306)/test?parseTime=true"
+
+[redis]
+addrs = [":6379"]
+db = 0
+password = ""

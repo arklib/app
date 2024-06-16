@@ -1,0 +1,51 @@
+version: '3'
+# go install github.com/go-task/task/v3/cmd/task@latest
+
+interval: 1s
+
+env:
+  GOARCH: amd64
+  CGO_ENABLED: 0
+
+vars:
+  APP_NAME: "app"
+  BUILD_DIR: "private/bin"
+
+tasks:
+  dev:
+    desc: Run Dev App
+    watch: true
+    method: none
+    sources:
+      - "**/*.go"
+      - "config.toml"
+      - exclude: "src/hub/**/*.go"
+      - exclude: "src/dal/model/*.go"
+    cmds:
+      - cmd: killall -9 app
+        ignore_error: true
+      - go run .
+
+  update:
+    desc: Run App Update
+    cmds:
+      - go mod tidy
+      - go mod download
+      - go run . --update
+
+  lint:
+    desc: Run Lint
+    cmds:
+      - golangci-lint run --fix
+
+  build:
+    desc: Run Build App
+    deps: [ lint ]
+    vars:
+      BUILD_CMD: >-
+        go build -ldflags="-s -w" -o {{.BUILD_DIR}}/{{.APP_NAME}}
+    cmds:
+      - cmd: GOOS=darwin {{.BUILD_CMD}}
+        platforms: [ darwin ]
+      - cmd: GOOS=linux {{.BUILD_CMD}}-linux
+        platforms: [ linux ]
