@@ -6,12 +6,14 @@ import (
 	"github.com/arklib/ark/errx"
 )
 
-type ApiCreateIn struct {
-	Nickname string `json:"nickname" label:"昵称" vd:"required,min=2,max=16"`
-	Username string `json:"username" label:"用户名" vd:"required,min=4,max=32"`
-	Password string `json:"password" label:"密码" vd:"required,min=6,max=32"`
-}
-type ApiCreateOut = model.User
+type (
+	ApiCreateIn struct {
+		Nickname string `json:"nickname" label:"昵称" vd:"required,min=2,max=16"`
+		Username string `json:"username" label:"用户名" vd:"required,min=4,max=32"`
+		Password string `json:"password" label:"密码" vd:"required,min=6,max=32"`
+	}
+	ApiCreateOut = model.User
+)
 
 func (fn *Fn) ApiCreate(at *ark.At, in *ApiCreateIn) (out *ApiCreateOut, err error) {
 	q := fn.Query.WithContext(at)

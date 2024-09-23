@@ -6,8 +6,10 @@ import (
 	"github.com/arklib/ark"
 )
 
-type ApiSSEReqIn struct{}
-type ApiSSEReqOut struct{}
+type (
+	ApiSSEReqIn  struct{}
+	ApiSSEReqOut struct{}
+)
 
 func (fn *Fn) ApiSSEReq(at *ark.At, in *ApiSSEReqIn) (out *ApiSSEReqOut, err error) {
 	cli := sse.NewClient("http://127.0.0.1:8888/api/test/sse")

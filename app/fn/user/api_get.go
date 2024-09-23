@@ -7,8 +7,10 @@ import (
 	"demo/app/model"
 )
 
-type ApiGetIn struct{}
-type ApiGetOut = model.User
+type (
+	ApiGetIn  struct{}
+	ApiGetOut = model.User
+)
 
 func (fn *Fn) ApiGet(at *ark.At, _ *ApiGetIn) (out *ApiGetOut, err error) {
 	q := fn.Query.WithContext(at)

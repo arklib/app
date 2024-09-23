@@ -6,11 +6,13 @@ import (
 	"github.com/arklib/ark/errx"
 )
 
-type ApiTokenCreateIn struct{}
-type ApiTokenCreateOut struct {
-	UserId uint   `json:"userId"`
-	Token  string `json:"token"`
-}
+type (
+	ApiTokenCreateIn  struct{}
+	ApiTokenCreateOut struct {
+		UserId uint   `json:"userId"`
+		Token  string `json:"token"`
+	}
+)
 
 func (fn *Fn) ApiTokenCreate(at *ark.At, in *ApiTokenCreateIn) (out *ApiTokenCreateOut, err error) {
 	user := &auth.User{

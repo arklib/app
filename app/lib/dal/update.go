@@ -5,8 +5,8 @@ import (
 )
 
 func Update(base *base.Base) {
-	Migrate(base.DB)
+	Migrate(base)
 	if base.IsDev() {
-		UpdateQuerier(base.DB)
+		UpdateQuerier(base)
 	}
 }

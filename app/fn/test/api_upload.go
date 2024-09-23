@@ -7,10 +7,12 @@ import (
 	"github.com/arklib/ark/errx"
 )
 
-type ApiUploadIn struct{}
-type ApiUploadOut struct {
-	Name string `json:"name"`
-}
+type (
+	ApiUploadIn  struct{}
+	ApiUploadOut struct {
+		Name string `json:"name"`
+	}
+)
 
 func (fn *Fn) ApiUpload(at *ark.At, in *ApiUploadIn) (out *ApiUploadOut, err error) {
 	file, err := at.Http().FormFile("file")

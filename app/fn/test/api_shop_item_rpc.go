@@ -11,8 +11,8 @@ type (
 	ApiShopItemRPCIn struct {
 		Id int `json:"id"`
 	}
+	ApiShopItemRPCOut = shop.ApiShopItemGetOut
 )
-type ApiShopItemRPCOut = shop.ApiShopItemGetOut
 
 func (fn *Fn) ApiShopItemRPC(at *ark.At, in *ApiShopItemRPCIn) (out *ApiShopItemRPCOut, err error) {
 	shopSvc := shop.New(at)

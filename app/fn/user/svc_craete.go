@@ -1,12 +1,12 @@
 package user
 
-import "context"
+import "github.com/arklib/ark"
 
 type (
 	CreateIn  struct{}
 	CreateOut struct{}
 )
 
-func (fn *Fn) Create(ctx context.Context, in *CreateIn) (out *CreateOut, err error) {
+func (fn *Fn) Create(at *ark.At, in *CreateIn) (out *CreateOut, err error) {
 	return
 }

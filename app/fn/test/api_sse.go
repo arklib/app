@@ -11,8 +11,10 @@ import (
 	"github.com/arklib/ark"
 )
 
-type ApiSSEIn struct{}
-type ApiSSEOut struct{}
+type (
+	ApiSSEIn  struct{}
+	ApiSSEOut struct{}
+)
 
 func (fn *Fn) ApiSSE(at *ark.At, in *ApiSSEIn) (out *ApiSSEOut, err error) {
 	// Last-Emitter-Id

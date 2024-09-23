@@ -3,9 +3,9 @@ mode = "dev"
 lang = "zh"
 
 [logger]
-file = "private/logs/app.log"
+file = "logs/app.log"
 # level: trace | debug | info | notice | warn | error | fatal
-level = "info"
+level = "debug"
 # maxAge: days
 maxAge = 30
 # maxSize: MB
@@ -22,24 +22,24 @@ namespace = "public"
 username = 'nacos'
 password = 'nacos'
 # nacos log dir
-logDir = "private/logs"
+logDir = "logs"
 # nacos cache dir
-cacheDir = "private/data"
+cacheDir = "data/nacos"
 
 [httpServer]
 enable = true
 addr = ":8888"
 usePprof = false
 # recover panic
-useRecovery = true
+useRecovery = false
 # hertz: default cors
-useCORS = true
+useCORS = false
 # etag
-useEtag = true
+useEtag = false
 # gzip level: (1~9)compression, (-1)default compression, (0)disable
-useGzip = 1
+useGzip = 0
 # hertz: access log
-useAccessLog = true
+useAccessLog = false
 # file route
 useFileRoutes = [
     # path: route path, root: file root dir
@@ -47,7 +47,7 @@ useFileRoutes = [
 ]
 
 [rpcServer]
-enable = false
+enable = true
 name = "shop"
 addr = ":8889"
 # HttpRoute: POST {RPCServer.Name}/{ApiPath}
@@ -60,17 +60,16 @@ useValidate = true
 useTracing = true
 # codec: frugal | sonic | gojson
 useCodec = "frugal"
-
-[rpcServer.useCodeGen]
 # generate rpc client code
+[rpcServer.useCodeGen]
 enable = true
-output = "src/hub/shop"
+output = "app/hub/shop"
 
 [rpcClient]
-enable = false
+enable = true
 timeout = "30s"
 # discover rpc service names
-services = ["shop"]
+discover = ["shop"]
 # tracing rpc
 useTracing = true
 # codec: frugal | sonic | gojson
@@ -78,13 +77,14 @@ useCodec = "frugal"
 
 [auth]
 # expires: 1h(our) | 1m(inute) | 1s(econd)
-expires = "72h"
-secretKey = ""
+expires = "24h"
+secretKey = "d6d22d29a627b3f37e8f2ddf9820d1ffbfbdeb534aaed68f2994146e939f47e9"
 
 [db]
-dsn = "root:password@tcp(127.0.0.1:3306)/test?parseTime=true"
+dirver = "mysql"
+dsn = "root:123123@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=true&loc=Local"
 
 [redis]
-addrs = [":6379"]
+addrs = ["127.0.0.1:6379"]
 db = 0
 password = ""
