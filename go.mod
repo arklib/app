@@ -7,8 +7,7 @@ replace github.com/apache/thrift => github.com/apache/thrift v0.13.0
 replace github.com/arklib/ark => ../ark
 
 require (
-	ark v0.0.0-00010101000000-000000000000
-	github.com/arklib/ark v0.2.61
+	github.com/arklib/ark v0.0.0-00010101000000-000000000000
 	github.com/hertz-contrib/sse v0.0.5
 	github.com/redis/go-redis/v9 v9.5.3
 	gorm.io/driver/mysql v1.5.7
