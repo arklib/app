@@ -8,8 +8,8 @@ env:
   CGO_ENABLED: 0
 
 vars:
-  APP_NAME: "app"
-  BUILD_DIR: "private/bin"
+  APP_NAME: "demo"
+  BUILD_DIR: "."
 
 tasks:
   dev:
@@ -19,10 +19,10 @@ tasks:
     sources:
       - "**/*.go"
       - "config.toml"
-      - exclude: "src/hub/**/*.go"
-      - exclude: "src/dal/model/*.go"
+      - exclude: "app/hub/**/*.go"
+      - exclude: "app/query/*.go"
     cmds:
-      - cmd: killall -9 app
+      - cmd: "killall -9 {{.APP_NAME}}"
         ignore_error: true
       - go run .
 
@@ -49,3 +49,7 @@ tasks:
         platforms: [ darwin ]
       - cmd: GOOS=linux {{.BUILD_CMD}}-linux
         platforms: [ linux ]
+
+  install:tools:
+    cmds:
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
