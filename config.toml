@@ -58,8 +58,6 @@ useRecovery = true
 useValidate = true
 # tracing rpc
 useTracing = true
-# codec: frugal | sonic | gojson
-useCodec = "frugal"
 # generate rpc client code
 [rpcServer.useCodeGen]
 enable = true
@@ -72,8 +70,6 @@ timeout = "30s"
 discover = ["shop"]
 # tracing rpc
 useTracing = true
-# codec: frugal | sonic | gojson
-useCodec = "frugal"
 
 [auth]
 # expires: 1h(our) | 1m(inute) | 1s(econd)
