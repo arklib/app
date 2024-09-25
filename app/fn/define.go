@@ -7,6 +7,8 @@ import (
 )
 
 func Define(base *base.Base) {
-	base.AddFn("test", test.New(base))
-	base.AddFn("user", user.New(base))
+	router := base.HttpServer.Group("api")
+
+	base.AddFn("test", test.New(base, router))
+	base.AddFn("user", user.New(base, router))
 }

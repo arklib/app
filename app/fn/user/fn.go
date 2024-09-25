@@ -12,7 +12,7 @@ type Fn struct {
 	test *test.Fn
 }
 
-func New(base *base.Base) *Fn {
+func New(base *base.Base, router *HttpRouter) *Fn {
 	fn := &Fn{
 		base,
 		base.GetFn("test").(*test.Fn),
@@ -22,16 +22,28 @@ func New(base *base.Base) *Fn {
 	base.Events.UserCreate.Add(fn.OnCreateSendSMS)
 
 	// add api
-	router := base.HttpServer.Group("api/user")
-	router.AddRoutes(HttpRoutes{
-		{Path: "login", Handler: ApiHandler[ApiLoginIn, ApiLoginOut](fn.ApiLogin)},
-		{Path: "create", Handler: ApiHandler[ApiCreateIn, ApiCreateOut](fn.ApiCreate)},
+	userRouter := router.Group("user")
+	userRouter.AddRoutes(HttpRoutes{
+		{
+			Path:    "login",
+			Handler: ApiHandler[ApiLoginIn, ApiLoginOut](fn.ApiLogin),
+		},
+		{
+			Path:    "create",
+			Handler: ApiHandler[ApiCreateIn, ApiCreateOut](fn.ApiCreate),
+		},
 	})
 
 	authMw := base.Auth.HttpMiddleware("user")
-	router.AddRoutes(HttpRoutes{
-		{Path: "get", Handler: ApiHandler[ApiGetIn, ApiGetOut](fn.ApiGet)},
-		{Path: "search", Handler: ApiHandler[ApiSearchIn, ApiSearchOut](fn.ApiSearch)},
+	userRouter.AddRoutes(HttpRoutes{
+		{
+			Path:    "get",
+			Handler: ApiHandler[ApiGetIn, ApiGetOut](fn.ApiGet),
+		},
+		{
+			Path:    "search",
+			Handler: ApiHandler[ApiSearchIn, ApiSearchOut](fn.ApiSearch),
+		},
 	}, authMw)
 
 	return fn
