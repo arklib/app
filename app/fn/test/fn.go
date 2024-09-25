@@ -6,22 +6,23 @@ import (
 	"demo/app/base"
 )
 
-type Fn struct{ *base.Base }
+type Fn struct {
+	*base.Base
+}
 
-func Setup(base *base.Base) {
-	// add fn
-	fn := &Fn{base}
-	base.AddFn("test", fn)
+func New(base *base.Base) *Fn {
+	fn := &Fn{
+		base,
+	}
 
 	// add api
-	router := base.HttpServer
-	api := router.Group("api/test")
-	api.AddRoutes(HttpRoutes{
+	router := base.HttpServer.Group("api/test")
+	router.AddRoutes(HttpRoutes{
 		{
 			Method:  "GET",
 			Path:    "ping",
 			Handler: ApiHandler[ApiPingIn, ApiPingOut](fn.ApiPing),
-			ApiMiddlewares: ApiMiddlewares{
+			Middlewares: Middlewares{
 				func(p *ApiPayload) error {
 					err := p.Next()
 					if err != nil {
@@ -45,7 +46,7 @@ func Setup(base *base.Base) {
 		{
 			Path:    "token/auth",
 			Handler: ApiHandler[ApiTokenAuthIn, ApiTokenAuthOut](fn.ApiTokenAuth),
-			Middlewares: HttpMiddlewares{
+			HttpMiddlewares: HttpMiddlewares{
 				base.Auth.HttpMiddleware("user"),
 			},
 		},
@@ -57,7 +58,7 @@ func Setup(base *base.Base) {
 		{
 			Path:    "get",
 			Handler: ApiHandler[ApiShopItemGetIn, ApiShopItemGetOut](fn.ApiShopItemGet),
-			ApiMiddlewares: ApiMiddlewares{
+			Middlewares: Middlewares{
 				func(payload *ApiPayload) error {
 					err := payload.Next()
 					if err != nil {
@@ -75,4 +76,6 @@ func Setup(base *base.Base) {
 			},
 		},
 	})
+
+	return fn
 }

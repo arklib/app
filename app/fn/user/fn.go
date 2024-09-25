@@ -11,31 +11,27 @@ type Fn struct {
 	test *test.Fn
 }
 
-func Setup(base *base.Base) {
-	// add fn
+func New(base *base.Base) *Fn {
 	fn := &Fn{
 		base,
-		base.Fn("test").(*test.Fn),
+		base.GetFn("test").(*test.Fn),
 	}
-	base.AddFn("user", fn)
 
 	// add event
-	base.Events.UserCreate.Add(
-		fn.OnCreateSendSMS,
-		fn.OnCreateSendEmail,
-	)
+	base.Events.UserCreate.Add(fn.OnCreateSendSMS)
 
 	// add api
-	router := base.HttpServer
-	api := router.Group("api/user")
-	api.AddRoutes(HttpRoutes{
+	router := base.HttpServer.Group("api/user")
+	router.AddRoutes(HttpRoutes{
 		{Path: "login", Handler: ApiHandler[ApiLoginIn, ApiLoginOut](fn.ApiLogin)},
 		{Path: "create", Handler: ApiHandler[ApiCreateIn, ApiCreateOut](fn.ApiCreate)},
 	})
 
 	authMw := base.Auth.HttpMiddleware("user")
-	api.AddRoutes(HttpRoutes{
+	router.AddRoutes(HttpRoutes{
 		{Path: "get", Handler: ApiHandler[ApiGetIn, ApiGetOut](fn.ApiGet)},
-		{Path: "search", Handler: ApiHandler[ApiSearchIn, SearchOut](fn.ApiSearch)},
+		{Path: "search", Handler: ApiHandler[ApiSearchIn, ApiSearchOut](fn.ApiSearch)},
 	}, authMw)
+
+	return fn
 }

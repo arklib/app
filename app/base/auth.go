@@ -7,8 +7,11 @@ import (
 	"github.com/arklib/ark/auth"
 )
 
-func (base *Base) initAuth() {
-	base.Logger.Info("[app] Init auth")
+func (base *Base) GetAuth() *auth.Auth {
+	if base.Auth != nil {
+		return base.Auth
+	}
+
 	config := new(struct {
 		Expires     time.Duration `default:"72h"`
 		SecretKey   []byte
@@ -24,5 +27,7 @@ func (base *Base) initAuth() {
 	if err != nil {
 		log.Fatalf("auth: %v", err)
 	}
+
 	base.Auth = authInst
+	return authInst
 }

@@ -5,7 +5,7 @@ lang = "zh"
 [logger]
 file = "logs/app.log"
 # level: trace | debug | info | notice | warn | error | fatal
-level = "debug"
+level = "info"
 # maxAge: days
 maxAge = 30
 # maxSize: MB
@@ -77,7 +77,6 @@ expires = "24h"
 secretKey = "d6d22d29a627b3f37e8f2ddf9820d1ffbfbdeb534aaed68f2994146e939f47e9"
 
 [db]
-dirver = "mysql"
 dsn = "root:123123@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=true&loc=Local"
 
 [redis]

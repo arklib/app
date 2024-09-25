@@ -20,23 +20,17 @@ tasks:
       - "**/*.go"
       - "config.toml"
       - exclude: "app/hub/**/*.go"
-      - exclude: "app/query/*.go"
+      - exclude: "app/mode/query/*.go"
     cmds:
       - cmd: "killall -9 {{.APP_NAME}}"
         ignore_error: true
       - go run .
 
   update:
-    desc: Run App Update
+    desc: db:migrate & db:gen
     cmds:
-      - go mod tidy
-      - go mod download
-      - go run . --update
-
-  lint:
-    desc: Run Lint
-    cmds:
-      - golangci-lint run --fix
+      - "go run . db:migrate"
+      - "go run . db:gen"
 
   build:
     desc: Run Build App
@@ -45,10 +39,15 @@ tasks:
       BUILD_CMD: >-
         go build -ldflags="-s -w" -o {{.BUILD_DIR}}/{{.APP_NAME}}
     cmds:
-      - cmd: GOOS=darwin {{.BUILD_CMD}}
-        platforms: [ darwin ]
-      - cmd: GOOS=linux {{.BUILD_CMD}}-linux
-        platforms: [ linux ]
+      - platforms: [ darwin ]
+        cmd: GOOS=darwin {{.BUILD_CMD}}-osx
+      - platforms: [ darwin, linux ]
+        cmd: GOOS=linux {{.BUILD_CMD}}-linux
+
+  lint:
+    desc: Run Lint
+    cmds:
+      - golangci-lint run --fix
 
   install:tools:
     cmds:

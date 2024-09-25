@@ -1,9 +1,9 @@
 package main
 
 import (
-	"demo/app"
+	"demo/cmd"
 )
 
 func main() {
-	app.Run()
+	cmd.Execute()
 }

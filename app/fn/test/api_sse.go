@@ -18,11 +18,11 @@ type (
 
 func (fn *Fn) ApiSSE(at *ark.At, in *ApiSSEIn) (out *ApiSSEOut, err error) {
 	// Last-Emitter-Id
-	lastEventID := sse.GetLastEventID(at.Http())
+	lastEventID := sse.GetLastEventID(at.HttpCtx())
 	fmt.Println(lastEventID)
 
-	at.Http().SetStatusCode(http.StatusOK)
-	stream := sse.NewStream(at.Http())
+	at.HttpCtx().SetStatusCode(http.StatusOK)
+	stream := sse.NewStream(at.HttpCtx())
 	i := 0
 	for range time.NewTicker(1 * time.Second).C {
 		if i == 3 {
@@ -44,6 +44,6 @@ func (fn *Fn) ApiSSE(at *ark.At, in *ApiSSEIn) (out *ApiSSEOut, err error) {
 		}
 		i++
 	}
-	at.Http().Abort()
+	at.HttpCtx().Abort()
 	return
 }

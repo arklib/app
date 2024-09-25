@@ -2,7 +2,6 @@ package user
 
 import (
 	"github.com/arklib/ark"
-	"github.com/arklib/ark/auth"
 	"github.com/arklib/ark/errx"
 )
 
@@ -26,9 +25,9 @@ func (fn *Fn) ApiLogin(at *ark.At, in *ApiLoginIn) (out *ApiLoginOut, err error)
 	).First()
 	errx.Assert(err, "auth failed")
 
-	token, err := fn.Auth.NewToken(&auth.User{
-		Id:   user.Id,
-		Role: "user",
+	token, err := fn.Auth.NewToken(map[string]any{
+		"type":   "user",
+		"userId": user.Id,
 	})
 	errx.Assert(err, "create token failed")
 

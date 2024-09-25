@@ -7,21 +7,23 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 
-	"demo/app/query"
+	"demo/app/model/query"
 )
 
-func (base *Base) initDB() {
-	base.Logger.Info("[app] Init db")
+func (base *Base) GetDB() *gorm.DB {
+	if base.DB != nil {
+		return base.DB
+	}
+
 	config := new(struct {
 		DSN string
 	})
-
 	err := base.BindConfig("db", config)
 	if err != nil {
 		log.Fatalf("db config: %v", err)
 	}
 
-	db, err := gorm.Open(mysql.New(mysql.Config{
+	dbInst, err := gorm.Open(mysql.New(mysql.Config{
 		DSN:                       config.DSN,
 		DefaultStringSize:         64,
 		DisableDatetimePrecision:  true,
@@ -34,13 +36,15 @@ func (base *Base) initDB() {
 		},
 	})
 	if err != nil {
-		log.Fatalf("db connect: %v", err)
+		log.Fatalf("dbInst connect: %v", err)
 	}
 
 	if base.IsDev() {
-		db = db.Debug()
+		dbInst = dbInst.Debug()
 	}
+	base.Logger.Debug("[app] init db")
 
-	base.DB = db
-	base.Query = query.Use(base.DB)
+	base.DB = dbInst
+	base.Query = query.Use(dbInst)
+	return dbInst
 }

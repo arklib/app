@@ -3,11 +3,11 @@ package base
 import (
 	"gorm.io/gorm"
 
-	"demo/app/query"
+	"github.com/redis/go-redis/v9"
+
+	"demo/app/model/query"
 	"github.com/arklib/ark"
 	"github.com/arklib/ark/auth"
-
-	"github.com/redis/go-redis/v9"
 )
 
 type Base struct {
@@ -20,6 +20,7 @@ type Base struct {
 	Redis redis.UniversalClient
 
 	Locks  *Locks
+	Tasks  *Tasks
 	Caches *Caches
 	Events *Events
 }
@@ -29,16 +30,26 @@ func New(srv *ark.Server) *Base {
 		Server: srv,
 		fnMap:  make(map[string]any),
 	}
-	base.initEvents()
+	base.defineEvents()
 	return base
 }
 
 func (base *Base) Init() *Base {
-	base.initAuth()
-	base.initDB()
-	base.initRedis()
-	base.initLocks()
-	base.initCaches()
+	base.GetAuth()
+	base.GetDB()
+	base.GetRedis()
+	base.GetLocks()
+	base.GetTasks()
+	base.GetCaches()
+	return base
+}
+
+func (base *Base) GetFn(name string) any {
+	return base.fnMap[name]
+}
+
+func (base *Base) AddFn(name string, fn any) *Base {
+	base.fnMap[name] = fn
 	return base
 }
 
@@ -47,12 +58,4 @@ func (base *Base) Use(handlers ...func(*Base)) *Base {
 		handler(base)
 	}
 	return base
-}
-
-func (base *Base) Fn(name string) any {
-	return base.fnMap[name]
-}
-
-func (base *Base) AddFn(name string, fn any) {
-	base.fnMap[name] = fn
 }

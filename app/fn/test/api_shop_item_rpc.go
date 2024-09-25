@@ -15,9 +15,8 @@ type (
 )
 
 func (fn *Fn) ApiShopItemRPC(at *ark.At, in *ApiShopItemRPCIn) (out *ApiShopItemRPCOut, err error) {
-	shopSvc := shop.New(at)
-
-	out, err = shopSvc.ApiShopItemGet(&shop.ApiShopItemGetIn{
+	shopSvc := shop.New(fn.Server)
+	out, err = shopSvc.ApiShopItemGet(at, &shop.ApiShopItemGetIn{
 		Id: in.Id,
 	})
 	errx.Assert(err)

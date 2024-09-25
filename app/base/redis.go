@@ -6,8 +6,11 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-func (base *Base) initRedis() {
-	base.Logger.Info("[app] Init redis")
+func (base *Base) GetRedis() redis.UniversalClient {
+	if base.Redis != nil {
+		return base.Redis
+	}
+
 	config := new(struct {
 		Addrs    []string `default:":6379"`
 		DB       int
@@ -24,5 +27,8 @@ func (base *Base) initRedis() {
 		DB:       config.DB,
 		Password: config.Password,
 	})
+	base.Logger.Debug("[app] init redis")
+
 	base.Redis = redisInst
+	return base.Redis
 }

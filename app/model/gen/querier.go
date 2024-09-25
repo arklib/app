@@ -1,9 +1,10 @@
-package dal
+package gen
 
 import (
 	"gorm.io/gen"
+	"gorm.io/gorm"
 
-	"demo/app/base"
+	"demo/app/model"
 )
 
 // Dynamic SQL
@@ -15,16 +16,17 @@ type Querier interface {
 	GetMany(id ...uint) ([]*gen.T, error)
 }
 
-func UpdateQuerier(base *base.Base) {
+func Run(db *gorm.DB, output string) {
+	models := model.GetModels()
+
 	g := gen.NewGenerator(gen.Config{
 		Mode:    gen.WithoutContext | gen.WithDefaultQuery | gen.WithQueryInterface,
-		OutPath: "dal/query",
+		OutPath: output,
 	})
-	g.UseDB(base.DB.Debug())
+	g.UseDB(db)
 
 	// Generate models
-	// g.ApplyBasic(base.Models...)
-	// g.ApplyInterface(func(Querier) {}, base.Models...)
-
+	g.ApplyBasic(models...)
+	g.ApplyInterface(func(Querier) {}, models...)
 	g.Execute()
 }

@@ -13,7 +13,7 @@ type (
 
 func (fn *Fn) ApiTokenAuth(at *ark.At, in *ApiTokenAuthIn) (out *ApiTokenAuthOut, err error) {
 	out = &ApiTokenAuthOut{
-		at.User.Id,
+		1,
 	}
 	return
 }

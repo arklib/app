@@ -7,3 +7,10 @@ type Model struct {
 	CreatedAt time.Time `json:"createdAt" gorm:"index"`
 	UpdatedAt time.Time `json:"updatedAt" gorm:"index"`
 }
+
+func GetModels() []any {
+	return []any{
+		User{},
+		UserAddress{},
+	}
+}

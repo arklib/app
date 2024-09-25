@@ -9,7 +9,7 @@ type Events struct {
 	UserCreate *event.Event[model.User]
 }
 
-func (base *Base) initEvents() {
+func (base *Base) defineEvents() {
 	base.Events = &Events{
 		UserCreate: event.New[model.User](),
 	}

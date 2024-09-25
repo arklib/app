@@ -73,6 +73,7 @@ require (
 	github.com/hertz-contrib/logger/zerolog v1.0.0 // indirect
 	github.com/hertz-contrib/pprof v0.1.2 // indirect
 	github.com/iancoleman/strcase v0.2.0 // indirect
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jhump/protoreflect v1.8.2 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
@@ -95,6 +96,8 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rs/zerolog v1.30.0 // indirect
 	github.com/samber/lo v1.47.0 // indirect
+	github.com/spf13/cobra v1.8.1 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/testify v1.9.0 // indirect
 	github.com/tidwall/gjson v1.17.3 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
