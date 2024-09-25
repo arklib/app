@@ -43,7 +43,7 @@ func (app *App) Execute() {
 	root.SetHelpCommand(&cobra.Command{Hidden: true})
 	flag := root.PersistentFlags()
 	flag.StringVarP(&args.configFile, "config", "c", "./config.toml", "app config file")
-	
+
 	app.CmdTask(root)
 	app.CmdTaskList(root)
 	app.CmdDBMigrate(root)

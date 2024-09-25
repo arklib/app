@@ -32,8 +32,8 @@ tasks:
   update:
     desc: db:migrate & db:gen
     cmds:
-      - "go run . db:migrate"
-      - "go run . db:gen"
+      - "./{{.APP_NAME}} db:migrate"
+      - "./{{.APP_NAME}} db:gen"
 
   build:
     desc: Run Build App
