@@ -6,6 +6,7 @@ import (
 	"github.com/redis/go-redis/v9"
 
 	"demo/app/model/query"
+
 	"github.com/arklib/ark"
 	"github.com/arklib/ark/auth"
 )

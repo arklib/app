@@ -20,11 +20,12 @@ tasks:
       - "**/*.go"
       - "config.toml"
       - exclude: "app/hub/**/*.go"
-      - exclude: "app/mode/query/*.go"
+      - exclude: "app/model/query/*.go"
+    deps: [ build ]
     cmds:
       - cmd: "killall -9 {{.APP_NAME}}"
         ignore_error: true
-      - go run .
+      - "./{{.APP_NAME}}"
 
   update:
     desc: db:migrate & db:gen
@@ -34,14 +35,14 @@ tasks:
 
   build:
     desc: Run Build App
-    deps: [ lint ]
+    # deps: [ lint ]
     vars:
       BUILD_CMD: >-
         go build -ldflags="-s -w" -o {{.BUILD_DIR}}/{{.APP_NAME}}
     cmds:
       - platforms: [ darwin ]
-        cmd: GOOS=darwin {{.BUILD_CMD}}-osx
-      - platforms: [ darwin, linux ]
+        cmd: GOOS=darwin {{.BUILD_CMD}}
+      - platforms: [ linux ]
         cmd: GOOS=linux {{.BUILD_CMD}}-linux
 
   lint:

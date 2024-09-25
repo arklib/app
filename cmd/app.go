@@ -10,13 +10,10 @@ import (
 	"demo/app/fn"
 	"demo/app/model"
 	"demo/app/model/gen"
+
 	"github.com/arklib/ark"
 	"github.com/arklib/ark/config"
 )
-
-func Execute() {
-	new(App).Execute()
-}
 
 type App struct {
 	*base.Base
@@ -51,7 +48,7 @@ func (app *App) Execute() {
 	app.CmdTask(root)
 	app.CmdTaskList(root)
 	app.CmdDBMigrate(root)
-	app.CmdGenQuery(root)
+	app.CmdDBGen(root)
 
 	_ = root.Execute()
 }
@@ -103,7 +100,7 @@ func (app *App) CmdDBMigrate(root *cobra.Command) {
 	root.AddCommand(cmd)
 }
 
-func (app *App) CmdGenQuery(root *cobra.Command) {
+func (app *App) CmdDBGen(root *cobra.Command) {
 	args := new(struct {
 		output string
 	})

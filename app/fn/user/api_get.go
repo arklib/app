@@ -2,6 +2,7 @@ package user
 
 import (
 	"demo/app/model"
+
 	"github.com/arklib/ark"
 	"github.com/arklib/ark/errx"
 )

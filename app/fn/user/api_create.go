@@ -2,6 +2,7 @@ package user
 
 import (
 	"demo/app/model"
+
 	"github.com/arklib/ark"
 	"github.com/arklib/ark/errx"
 )
@@ -17,7 +18,7 @@ type (
 
 func (fn *Fn) ApiCreate(at *ark.At, in *ApiCreateIn) (out *ApiCreateOut, err error) {
 	q := fn.Query.WithContext(at)
-	
+
 	ping, err := fn.test.ApiPing(at, nil)
 
 	fn.Logger.Info(ping.Message)

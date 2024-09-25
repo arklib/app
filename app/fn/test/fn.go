@@ -11,9 +11,7 @@ type Fn struct {
 }
 
 func New(base *base.Base) *Fn {
-	fn := &Fn{
-		base,
-	}
+	fn := &Fn{base}
 
 	// add api
 	router := base.HttpServer.Group("api/test")

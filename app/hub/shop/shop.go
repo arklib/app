@@ -2,11 +2,7 @@
 
 package shop
 
-import (
-	"context"
-
-	"github.com/arklib/ark"
-)
+import "github.com/arklib/ark"
 
 type ApiShopItemGetIn struct {
 	Id int `frugal:"1,default" json:"id" vd:"required"`
@@ -26,8 +22,8 @@ func New(srv *ark.Server) *Service {
 	return &Service{srv}
 }
 
-func (s *Service) ApiShopItemGet(ctx context.Context, in *ApiShopItemGetIn) (out *ApiShopItemGetOut, err error) {
+func (s *Service) ApiShopItemGet(at *ark.At, in *ApiShopItemGetIn) (out *ApiShopItemGetOut, err error) {
 	out = new(ApiShopItemGetOut)
-	err = s.srv.RPC(ctx, "shop/item/get", in, out)
+	err = s.srv.RPC(at, "shop/item/get", in, out)
 	return
 }

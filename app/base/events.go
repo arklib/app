@@ -2,6 +2,7 @@ package base
 
 import (
 	"demo/app/model"
+
 	"github.com/arklib/ark/event"
 )
 
