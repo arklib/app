@@ -40,11 +40,10 @@ func (app *App) Execute() {
 		PersistentPreRun: load,
 		Run:              run,
 	}
-
-	root.PersistentFlags().StringVar(&args.configFile, "config", "./config.toml", "app config file")
-
 	root.SetHelpCommand(&cobra.Command{Hidden: true})
-
+	flag := root.PersistentFlags()
+	flag.StringVarP(&args.configFile, "config", "c", "./config.toml", "app config file")
+	
 	app.CmdTask(root)
 	app.CmdTaskList(root)
 	app.CmdDBMigrate(root)
@@ -114,6 +113,7 @@ func (app *App) CmdDBGen(root *cobra.Command) {
 		Short: "generate gorm query code",
 		Run:   run,
 	}
-	cmd.PersistentFlags().StringVar(&args.output, "output", "app/model/query", "output path")
+	flag := cmd.PersistentFlags()
+	flag.StringVar(&args.output, "output", "app/model/query", "output path")
 	root.AddCommand(cmd)
 }
