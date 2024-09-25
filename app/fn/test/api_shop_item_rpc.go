@@ -4,7 +4,7 @@ import (
 	"github.com/arklib/ark"
 	"github.com/arklib/ark/errx"
 
-	"demo/app/hub/shop"
+	"demo/hub/shop"
 )
 
 type (

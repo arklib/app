@@ -61,7 +61,7 @@ useTracing = true
 # generate rpc client code
 [rpcServer.useCodeGen]
 enable = true
-output = "app/hub/shop"
+output = "hub/shop"
 
 [rpcClient]
 enable = true

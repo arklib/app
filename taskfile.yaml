@@ -21,7 +21,7 @@ tasks:
     sources:
       - "**/*.go"
       - "config.toml"
-      - exclude: "app/hub/**/*.go"
+      - exclude: "hub/**/*.go"
       - exclude: "app/model/query/*.go"
     deps: [ build ]
     cmds:
