@@ -10,6 +10,8 @@ require (
 	github.com/arklib/ark v0.0.0-00010101000000-000000000000
 	github.com/hertz-contrib/sse v0.0.5
 	github.com/redis/go-redis/v9 v9.6.1
+	github.com/spf13/cast v1.7.0
+	github.com/spf13/cobra v1.8.1
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gen v0.3.26
 	gorm.io/gorm v1.25.12
@@ -96,7 +98,6 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rs/zerolog v1.30.0 // indirect
 	github.com/samber/lo v1.47.0 // indirect
-	github.com/spf13/cobra v1.8.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/testify v1.9.0 // indirect
 	github.com/tidwall/gjson v1.17.3 // indirect

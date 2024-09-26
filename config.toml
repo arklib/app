@@ -3,7 +3,7 @@ mode = "dev"
 lang = "zh"
 
 [logger]
-file = "logs/app.log"
+file = "private/logs/app.log"
 # level: trace | debug | info | notice | warn | error | fatal
 level = "info"
 # maxAge: days
@@ -24,7 +24,7 @@ password = 'nacos'
 # nacos log dir
 logDir = "logs"
 # nacos cache dir
-cacheDir = "data/nacos"
+cacheDir = "private/data/nacos"
 
 [httpServer]
 enable = true
@@ -65,15 +65,15 @@ output = "hub/shop"
 
 [rpcClient]
 enable = true
-timeout = "30s"
+timeout = 30
 # discover rpc service names
 discover = ["shop"]
 # tracing rpc
 useTracing = true
 
 [auth]
-# expires: 1h(our) | 1m(inute) | 1s(econd)
-expires = "24h"
+# expire: seconds
+expire = 86400
 secretKey = "d6d22d29a627b3f37e8f2ddf9820d1ffbfbdeb534aaed68f2994146e939f47e9"
 
 [db]

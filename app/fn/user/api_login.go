@@ -25,10 +25,10 @@ func (fn *Fn) ApiLogin(at *ark.At, in *ApiLoginIn) (out *ApiLoginOut, err error)
 	).First()
 	errx.Assert(err, "auth failed")
 
-	token, err := fn.Auth.NewToken(map[string]any{
-		"type":   "user",
+	payload := map[string]any{
 		"userId": user.Id,
-	})
+	}
+	token, err := fn.Auth.NewToken("user", payload)
 	errx.Assert(err, "create token failed")
 
 	out = &ApiLoginOut{token}

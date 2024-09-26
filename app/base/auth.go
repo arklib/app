@@ -2,28 +2,27 @@ package base
 
 import (
 	"log"
-	"time"
 
 	"github.com/arklib/ark/auth"
 )
 
-func (base *Base) GetAuth() *auth.Auth {
+func (base *Base) initAuth() *auth.Auth {
 	if base.Auth != nil {
 		return base.Auth
 	}
 
-	config := new(struct {
-		Expires     time.Duration `default:"72h"`
-		SecretKey   []byte
+	c := new(struct {
+		Expire      int64 `default:"86400"`
+		SecretKey   string
 		TokenLookup string `default:"header: Authorization"`
 	})
 
-	err := base.BindConfig("auth", config)
+	err := base.BindConfig("auth", c)
 	if err != nil {
-		log.Fatalf("auth config: %v", err)
+		log.Fatalf("auth c: %v", err)
 	}
 
-	authInst, err := auth.New(config.SecretKey, config.Expires, config.TokenLookup)
+	authInst, err := auth.New(c.SecretKey, c.Expire, c.TokenLookup)
 	if err != nil {
 		log.Fatalf("auth: %v", err)
 	}

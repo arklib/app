@@ -15,16 +15,16 @@ func (base *Base) GetDB() *gorm.DB {
 		return base.DB
 	}
 
-	config := new(struct {
+	c := new(struct {
 		DSN string
 	})
-	err := base.BindConfig("db", config)
+	err := base.BindConfig("db", c)
 	if err != nil {
-		log.Fatalf("db config: %v", err)
+		log.Fatalf("db c: %v", err)
 	}
 
 	dbInst, err := gorm.Open(mysql.New(mysql.Config{
-		DSN:                       config.DSN,
+		DSN:                       c.DSN,
 		DefaultStringSize:         64,
 		DisableDatetimePrecision:  true,
 		DontSupportRenameIndex:    true,

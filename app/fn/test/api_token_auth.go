@@ -5,7 +5,9 @@ import (
 )
 
 type (
-	ApiTokenAuthIn  struct{}
+	ApiTokenAuthIn struct {
+		UserId uint `auth:"userId"`
+	}
 	ApiTokenAuthOut struct {
 		UserId uint `json:"userId"`
 	}
@@ -13,7 +15,7 @@ type (
 
 func (fn *Fn) ApiTokenAuth(at *ark.At, in *ApiTokenAuthIn) (out *ApiTokenAuthOut, err error) {
 	out = &ApiTokenAuthOut{
-		1,
+		in.UserId,
 	}
 	return
 }

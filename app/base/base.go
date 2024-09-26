@@ -31,12 +31,12 @@ func New(srv *ark.Server) *Base {
 		Server: srv,
 		fnMap:  make(map[string]any),
 	}
-	base.defineEvents()
+	base.initAuth()
+	base.initEvents()
 	return base
 }
 
 func (base *Base) Init() *Base {
-	base.GetAuth()
 	base.GetDB()
 	base.GetRedis()
 	base.GetLocks()
