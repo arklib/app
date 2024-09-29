@@ -96,7 +96,7 @@ func (c *Command) addDBGen() {
 		Use:   "gen:querier",
 		Short: "generate gorm query code",
 		Run: func(*cobra.Command, []string) {
-			gen.HandleQuerier(c.app, args.output)
+			gen.BuildQuerier(c.app, args.output)
 		},
 	}
 	cmd.PersistentFlags().StringVar(&args.output, "output", "c/model/query", "output path")

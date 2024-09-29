@@ -15,7 +15,7 @@ type Querier interface {
 	GetMany(id ...uint) ([]*gen.T, error)
 }
 
-func HandleQuerier(app *app.App, output string) {
+func BuildQuerier(app *app.App, output string) {
 	g := gen.NewGenerator(gen.Config{
 		Mode:    gen.WithoutContext | gen.WithDefaultQuery | gen.WithQueryInterface,
 		OutPath: output,
