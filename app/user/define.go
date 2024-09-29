@@ -18,9 +18,10 @@ func Define(app *app.App) {
 	app.AddService("user", service.New(app))
 
 	// add event
-	ev := event.New(app)
-	app.Events.UserCreate.Add(ev.SendUserCreateSMS)
+	userEvent := event.New(app)
+	app.Events.UserCreate.Add(userEvent.SendUserCreateSMS)
 
+	// add task
 	userTask := task.New(app)
 	app.Tasks.SyncUser.With(userTask.SyncFromERP)
 
