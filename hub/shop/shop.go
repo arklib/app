@@ -4,11 +4,11 @@ package shop
 
 import "github.com/arklib/ark"
 
-type ApiShopItemGetIn struct {
+type TestShopItemGetIn struct {
 	Id int `frugal:"1,default" json:"id" vd:"required"`
 }
 
-type ApiShopItemGetOut struct {
+type TestShopItemGetOut struct {
 	Id          int    `frugal:"1,default" json:"id"`
 	Title       string `frugal:"2,default" json:"title"`
 	Description string `frugal:"3,default" json:"description"`
@@ -22,8 +22,8 @@ func New(srv *ark.Server) *Service {
 	return &Service{srv}
 }
 
-func (s *Service) ApiShopItemGet(at *ark.At, in *ApiShopItemGetIn) (out *ApiShopItemGetOut, err error) {
-	out = new(ApiShopItemGetOut)
+func (s *Service) TestShopItemGet(at *ark.At, in *TestShopItemGetIn) (out *TestShopItemGetOut, err error) {
+	out = new(TestShopItemGetOut)
 	err = s.srv.RPC(at, "shop/test/get", in, out)
 	return
 }

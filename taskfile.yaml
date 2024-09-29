@@ -20,6 +20,7 @@ tasks:
     method: none
     sources:
       - "**/*.go"
+      - "../ark/**/*.go"
       - "config.toml"
       - exclude: "hub/**/*.go"
       - exclude: "app/model/query/*.go"
@@ -30,10 +31,10 @@ tasks:
       - "./{{.APP_NAME}}"
 
   update:
-    desc: db:migrate & db:gen
+    desc: db:migrate & gen:querier
     cmds:
       - "./{{.APP_NAME}} db:migrate"
-      - "./{{.APP_NAME}} db:gen"
+      - "./{{.APP_NAME}} gen:querier"
 
   build:
     desc: Run Build App
