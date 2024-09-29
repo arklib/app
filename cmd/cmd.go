@@ -29,7 +29,7 @@ func (c *Command) init() *Command {
 		Use:   "app",
 		Short: "run app",
 		PersistentPreRun: func(*cobra.Command, []string) {
-			c.app = etc.Load(args.config)
+			c.app = etc.LoadApp(args.config)
 		},
 		Run: func(*cobra.Command, []string) {
 			c.app.Run()
@@ -78,7 +78,7 @@ func (c *Command) addDBMigrate() {
 		Short: "migrate database",
 		Run: func(*cobra.Command, []string) {
 			models := c.app.GetModels()
-			err := c.app.UseDB().AutoMigrate(models)
+			err := c.app.GetDB().AutoMigrate(models)
 			if err != nil {
 				log.Fatal(err)
 			}

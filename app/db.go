@@ -10,7 +10,7 @@ import (
 	"demo/etc/query"
 )
 
-func (app *App) UseDB() *gorm.DB {
+func (app *App) GetDB() *gorm.DB {
 	if app.DB != nil {
 		return app.DB
 	}

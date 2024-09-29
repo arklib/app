@@ -7,11 +7,13 @@ type Tasks struct {
 }
 
 func (app *App) initTasks() {
-	// 传递未初始化客户端
-	// driver := task.NewRedisDriver(app.UseRedis)
+	driver := task.NewRedisDriver(app.GetRedis())
 
-	driver := task.NewRedisDriver(app.UseRedis())
 	app.Tasks = &Tasks{
-		SyncUser: task.New[uint](driver, "sync_user", 60),
+		SyncUser: task.Define[uint](task.Config{
+			Driver:  driver,
+			Queue:   "sync_user",
+			Timeout: 60,
+		}),
 	}
 }

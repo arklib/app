@@ -34,13 +34,11 @@ func Define(app *app.App) {
 			},
 		},
 		{
-			Method:  "GET",
 			Path:    "cache",
-			Handler: ApiHandler[api.CacheGetIn, api.CacheGetOut](apiFn.CacheGet)},
+			Handler: ApiHandler[api.CacheIn, api.CacheOut](apiFn.Cache)},
 		{
-			Method:  "GET",
 			Path:    "lock",
-			Handler: ApiHandler[api.LockApplyIn, api.LockApplyOut](apiFn.LockApply),
+			Handler: ApiHandler[api.LockIn, api.LockOut](apiFn.Lock),
 		},
 		{
 			Path:    "validate",

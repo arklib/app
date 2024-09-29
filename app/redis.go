@@ -6,7 +6,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-func (app *App) UseRedis() redis.UniversalClient {
+func (app *App) GetRedis() redis.UniversalClient {
 	if app.Redis != nil {
 		return app.Redis
 	}

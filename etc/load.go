@@ -8,7 +8,7 @@ import (
 	"github.com/arklib/ark/config"
 )
 
-func Load(configFile string) *app.App {
+func LoadApp(configFile string) *app.App {
 	conf := config.MustLoad(configFile)
 	srv := ark.MustNewServer(conf)
 	return app.New(srv).Use(

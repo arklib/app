@@ -1,22 +1,21 @@
 package app
 
 import (
-	"time"
-
 	"github.com/arklib/ark/lock"
 )
 
 type Locks struct {
-	UserCreate *lock.Lock
+	User *lock.Lock
 }
 
 func (app *App) initLocks() {
-	driver := lock.NewRedisDriver(app.UseRedis())
+	driver := lock.NewRedisDriver(app.GetRedis())
+
 	app.Locks = &Locks{
-		UserCreate: lock.New(
-			driver,
-			"order:create",
-			10*time.Second,
-		),
+		User: lock.Define(lock.Config{
+			Driver: driver,
+			Scene:  "user:create",
+			TTL:    10,
+		}),
 	}
 }

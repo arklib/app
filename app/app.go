@@ -47,8 +47,8 @@ func New(srv *ark.Server) *App {
 }
 
 func (app *App) init() *App {
-	app.UseDB()
-	app.UseRedis()
+	app.GetDB()
+	app.GetRedis()
 	app.Shop = shop.New(app.Server)
 	return app
 }

@@ -7,20 +7,22 @@ import (
 )
 
 type (
-	LockApplyIn  struct{}
-	LockApplyOut struct {
+	LockIn struct {
+		UserId uint `json:"id"`
+	}
+	LockOut struct {
 		Message string `json:"message"`
 	}
 )
 
-func (it *Api) LockApply(at *ark.At, in *LockApplyIn) (out *LockApplyOut, err error) {
-	lock, err := it.Locks.UserCreate.Lock(at, "id")
+func (it *Api) Lock(at *ark.At, in *LockIn) (out *LockOut, err error) {
+	lock, err := it.Locks.User.Lock(at, in.UserId)
 	if err != nil {
 		return
 	}
 	defer func() { err = lock.Free() }()
 
 	time.Sleep(10 * time.Second)
-	out = &LockApplyOut{"ok"}
+	out = &LockOut{"ok"}
 	return
 }

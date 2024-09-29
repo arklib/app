@@ -17,12 +17,14 @@ type (
 )
 
 func (it *Api) SSE(at *ark.At, in *SSEIn) (out *SSEOut, err error) {
+	httpCtx := at.HttpCtx()
+
 	// Last-Emitter-Id
-	lastEventID := sse.GetLastEventID(at.HttpCtx())
+	lastEventID := sse.GetLastEventID(httpCtx)
 	fmt.Println(lastEventID)
 
-	at.HttpCtx().SetStatusCode(http.StatusOK)
-	stream := sse.NewStream(at.HttpCtx())
+	httpCtx.SetStatusCode(http.StatusOK)
+	stream := sse.NewStream(httpCtx)
 	i := 0
 	for range time.NewTicker(1 * time.Second).C {
 		if i == 3 {
@@ -44,6 +46,6 @@ func (it *Api) SSE(at *ark.At, in *SSEIn) (out *SSEOut, err error) {
 		}
 		i++
 	}
-	at.HttpCtx().Abort()
+	httpCtx.Abort()
 	return
 }

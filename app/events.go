@@ -12,6 +12,6 @@ type Events struct {
 
 func (app *App) initEvents() {
 	app.Events = &Events{
-		UserCreate: event.New[model.User](),
+		UserCreate: event.Define[model.User](),
 	}
 }
