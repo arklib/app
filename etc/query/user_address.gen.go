@@ -6,6 +6,7 @@ package query
 
 import (
 	"context"
+	"demo/app/user/model"
 	"strings"
 
 	"gorm.io/gorm"
@@ -16,8 +17,6 @@ import (
 	"gorm.io/gen/field"
 
 	"gorm.io/plugin/dbresolver"
-
-	"demo/app/user/model"
 )
 
 func newUserAddress(db *gorm.DB, opts ...gen.DOOption) userAddress {
@@ -311,7 +310,7 @@ func (u userAddressDo) CreateInBatches(values []*model.UserAddress, batchSize in
 }
 
 // Save : !!! underlying implementation is different with GORM
-// The method is equivalent to executing the statement: db.Clauses(clause.OnConflict{UpdateAll: true}).UserCreate(values)
+// The method is equivalent to executing the statement: db.Clauses(clause.OnConflict{UpdateAll: true}).Create(values)
 func (u userAddressDo) Save(values ...*model.UserAddress) error {
 	if len(values) == 0 {
 		return nil

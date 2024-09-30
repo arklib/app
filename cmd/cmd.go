@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/spf13/cobra"
@@ -9,6 +8,7 @@ import (
 	"demo/app"
 	"demo/etc"
 	"demo/etc/gen"
+	"github.com/arklib/ark/job"
 )
 
 type Command struct {
@@ -40,42 +40,50 @@ func (c *Command) init() *Command {
 	c.Command = root
 
 	c.addTask()
-	c.addTaskList()
+	c.addJob()
+	c.addJobRetry()
 	c.addDBMigrate()
 	c.addDBGen()
 	return c
 }
 
 func (c *Command) addTask() {
-	args := new(struct {
-		name string
-	})
-
 	cmd := &cobra.Command{
 		Use:   "task",
-		Short: "run task",
-		Run: func(*cobra.Command, []string) {
-			fmt.Println("run task")
+		Short: "run custom task",
+		Run: func(cmd *cobra.Command, args []string) {
+			c.app.Task.Run(args)
 		},
 	}
-	cmd.PersistentFlags().StringVar(&args.name, "name", "all", "task name")
 	c.AddCommand(cmd)
 }
 
-func (c *Command) addTaskList() {
+func (c *Command) addJob() {
 	cmd := &cobra.Command{
-		Use:   "task:list",
-		Short: "show task list",
-		Run: func(*cobra.Command, []string) {
-			fmt.Println("run task")
+		Use:   "job",
+		Short: "run job",
+		Run: func(cmd *cobra.Command, args []string) {
+			job.Run(c.app.Jobs, args)
 		},
 	}
 	c.AddCommand(cmd)
 }
+
+func (c *Command) addJobRetry() {
+	cmd := &cobra.Command{
+		Use:   "job:retry",
+		Short: "run job retry",
+		Run: func(cmd *cobra.Command, args []string) {
+			job.RunRetry(c.app.Jobs, args)
+		},
+	}
+	c.AddCommand(cmd)
+}
+
 func (c *Command) addDBMigrate() {
 	cmd := &cobra.Command{
 		Use:   "db:migrate",
-		Short: "migrate database",
+		Short: "database migrate",
 		Run: func(*cobra.Command, []string) {
 			models := c.app.GetModels()
 			err := c.app.GetDB().AutoMigrate(models)
@@ -99,6 +107,6 @@ func (c *Command) addDBGen() {
 			gen.BuildQuerier(c.app, args.output)
 		},
 	}
-	cmd.PersistentFlags().StringVar(&args.output, "output", "c/model/query", "output path")
+	cmd.PersistentFlags().StringVar(&args.output, "output", "etc/query", "output path")
 	c.AddCommand(cmd)
 }

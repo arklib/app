@@ -23,7 +23,7 @@ type App struct {
 	Redis redis.UniversalClient
 
 	Locks  *Locks
-	Tasks  *Tasks
+	Jobs   *Jobs
 	Caches *Caches
 	Events *Events
 
@@ -41,7 +41,7 @@ func New(srv *ark.Server) *App {
 	app.initAuth()
 	app.initEvents()
 	app.initLocks()
-	app.initTasks()
+	app.initJobs()
 	app.initCaches()
 	return app
 }

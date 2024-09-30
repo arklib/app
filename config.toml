@@ -22,7 +22,7 @@ namespace = "public"
 username = 'nacos'
 password = 'nacos'
 # nacos log dir
-logDir = "logs"
+logDir = "private/logs"
 # nacos cache dir
 cacheDir = "private/data/nacos"
 

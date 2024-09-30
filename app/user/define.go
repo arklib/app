@@ -4,6 +4,7 @@ import (
 	"demo/app"
 	"demo/app/user/api"
 	"demo/app/user/event"
+	"demo/app/user/job"
 	"demo/app/user/model"
 	"demo/app/user/service"
 	"demo/app/user/task"
@@ -13,17 +14,23 @@ import (
 func Define(app *app.App) {
 	// add model
 	app.AddModel("user", new(model.User))
+	app.AddModel("user_address", new(model.UserAddress))
 
 	// add service
-	app.AddService("user", service.New(app))
+	userService := service.New(app)
+	app.AddService("user", userService)
 
 	// add event
 	userEvent := event.New(app)
-	app.Events.UserCreate.Add(userEvent.SendUserCreateSMS)
+	app.Events.UserCreate.Use(userEvent.SendUserCreateSMS)
 
-	// add task
+	// add job
+	userJob := job.New(app)
+	app.Jobs.SyncUser.Use(userJob.SyncUser)
+
+	// register task
 	userTask := task.New(app)
-	app.Tasks.SyncUser.With(userTask.SyncFromERP)
+	app.Task.Register("user:SyncUserFormERP", userTask.SyncUserFormERP)
 
 	// add api
 	apiFn := api.New(app)
@@ -42,9 +49,8 @@ func Define(app *app.App) {
 		},
 	})
 
-	authRouter := app.HttpServer.Group("api/user")
-	authRouter.WithHttpMiddleware(app.Auth.HttpMiddleware("user"))
-	authRouter.AddRoutes(HttpRoutes{
+	router = app.HttpServer.Group("api/user")
+	router.AddRoutes(HttpRoutes{
 		{
 			Path:    "get",
 			Handler: ApiHandler[api.GetIn, api.GetOut](apiFn.Get),
@@ -53,5 +59,5 @@ func Define(app *app.App) {
 			Path:    "search",
 			Handler: ApiHandler[api.SearchIn, api.SearchOut](apiFn.Search),
 		},
-	})
+	}, app.Auth.HttpMiddleware("user"))
 }
