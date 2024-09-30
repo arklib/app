@@ -12,7 +12,7 @@ type Caches struct {
 }
 
 func (app *App) initCaches() {
-	driver := cache.NewRedisDriver(app.GetRedis())
+	driver := cache.NewRedisDriver(app.Redis)
 
 	app.Caches = &Caches{
 		Any: cache.Define[string](cache.Config{

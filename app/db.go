@@ -10,11 +10,7 @@ import (
 	"demo/etc/query"
 )
 
-func (app *App) GetDB() *gorm.DB {
-	if app.DB != nil {
-		return app.DB
-	}
-
+func (app *App) initDB() {
 	c := new(struct {
 		DSN string
 	})
@@ -23,7 +19,7 @@ func (app *App) GetDB() *gorm.DB {
 		log.Fatalf("db c: %v", err)
 	}
 
-	dbInst, err := gorm.Open(mysql.New(mysql.Config{
+	db, err := gorm.Open(mysql.New(mysql.Config{
 		DSN:                       c.DSN,
 		DefaultStringSize:         64,
 		DisableDatetimePrecision:  true,
@@ -44,7 +40,6 @@ func (app *App) GetDB() *gorm.DB {
 	}
 	app.Logger.Debug("[app] init db")
 
-	app.DB = dbInst
-	app.Query = query.Use(dbInst)
-	return dbInst
+	app.DB = db
+	app.Query = query.Use(db)
 }

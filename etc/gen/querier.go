@@ -20,7 +20,7 @@ func BuildQuerier(app *app.App, output string) {
 		Mode:    gen.WithoutContext | gen.WithDefaultQuery | gen.WithQueryInterface,
 		OutPath: output,
 	})
-	g.UseDB(app.GetDB())
+	g.UseDB(app.DB)
 	models := app.GetModels()
 
 	// Generate models

@@ -7,8 +7,8 @@ type Jobs struct {
 }
 
 func (app *App) initJobs() {
-	driver := job.NewRedisDriver(app.GetRedis())
-	retryDriver := job.NewDBRetryDriver(app.GetDB())
+	driver := job.NewRedisDriver(app.Redis)
+	retryDriver := job.NewDBRetryDriver(app.DB)
 
 	app.Jobs = &Jobs{
 		SyncUser: job.Define[uint](job.Config{

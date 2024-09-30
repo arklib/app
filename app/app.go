@@ -40,8 +40,8 @@ func New(srv *ark.Server) *App {
 }
 
 func (app *App) init() *App {
-	app.GetDB()
-	app.GetRedis()
+	app.initDB()
+	app.initRedis()
 	app.initAuth()
 	app.initEvents()
 	app.initLocks()

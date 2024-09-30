@@ -9,7 +9,7 @@ type Locks struct {
 }
 
 func (app *App) initLocks() {
-	driver := lock.NewRedisDriver(app.GetRedis())
+	driver := lock.NewRedisDriver(app.Redis)
 
 	app.Locks = &Locks{
 		User: lock.Define(lock.Config{

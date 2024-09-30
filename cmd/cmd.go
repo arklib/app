@@ -8,6 +8,8 @@ import (
 	"demo/app"
 	"demo/etc"
 	"demo/etc/gen"
+	"github.com/arklib/ark"
+	"github.com/arklib/ark/config"
 	"github.com/arklib/ark/job"
 )
 
@@ -29,7 +31,9 @@ func (c *Command) init() *Command {
 		Use:   "app",
 		Short: "run app",
 		PersistentPreRun: func(*cobra.Command, []string) {
-			c.app = etc.LoadApp(args.config)
+			cfg := config.MustLoad(args.config)
+			srv := ark.MustNewServer(cfg)
+			c.app = etc.Load(app.New(srv))
 		},
 		Run: func(*cobra.Command, []string) {
 			c.app.Run()
@@ -86,7 +90,7 @@ func (c *Command) useDBMigrate() {
 		Short: "database migrate",
 		Run: func(*cobra.Command, []string) {
 			models := c.app.GetModels()
-			err := c.app.GetDB().AutoMigrate(models...)
+			err := c.app.DB.AutoMigrate(models...)
 			if err != nil {
 				log.Fatal(err)
 			}
