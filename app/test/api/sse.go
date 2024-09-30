@@ -16,15 +16,15 @@ type (
 	SSEOut struct{}
 )
 
-func (it *Api) SSE(at *ark.At, in *SSEIn) (out *SSEOut, err error) {
-	httpCtx := at.HttpCtx()
+func (it *Api) SSE(ctx *ark.Ctx, in *SSEIn) (out *SSEOut, err error) {
+	req := ctx.HttpReq()
 
 	// Last-Emitter-Id
-	lastEventID := sse.GetLastEventID(httpCtx)
+	lastEventID := sse.GetLastEventID(req)
 	fmt.Println(lastEventID)
 
-	httpCtx.SetStatusCode(http.StatusOK)
-	stream := sse.NewStream(httpCtx)
+	req.SetStatusCode(http.StatusOK)
+	stream := sse.NewStream(req)
 	i := 0
 	for range time.NewTicker(1 * time.Second).C {
 		if i == 3 {
@@ -46,6 +46,6 @@ func (it *Api) SSE(at *ark.At, in *SSEIn) (out *SSEOut, err error) {
 		}
 		i++
 	}
-	httpCtx.Abort()
+	req.Abort()
 	return
 }

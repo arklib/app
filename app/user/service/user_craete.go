@@ -7,6 +7,6 @@ type (
 	CreateOut struct{}
 )
 
-func (it *Service) UserCreate(at *ark.At, in *CreateIn) (out *CreateOut, err error) {
+func (it *Service) UserCreate(ctx *ark.Ctx, in *CreateIn) (out *CreateOut, err error) {
 	return
 }

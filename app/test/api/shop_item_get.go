@@ -15,7 +15,7 @@ type (
 	}
 )
 
-func (it *Api) ShopItemGet(at *ark.At, in *ShopItemGetIn) (out *ShopItemGetOut, err error) {
+func (it *Api) ShopItemGet(ctx *ark.Ctx, in *ShopItemGetIn) (out *ShopItemGetOut, err error) {
 	out = &ShopItemGetOut{
 		Id:          in.Id,
 		Title:       "golang",

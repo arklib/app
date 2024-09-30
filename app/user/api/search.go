@@ -17,8 +17,8 @@ type (
 	}
 )
 
-func (it *Api) Search(at *ark.At, in *SearchIn) (out *SearchOut, err error) {
-	q := it.Query.WithContext(at)
+func (it *Api) Search(ctx *ark.Ctx, in *SearchIn) (out *SearchOut, err error) {
+	q := it.Query.WithContext(ctx)
 
 	offset := in.Size * (in.Page - 1)
 	users, err := q.User.Offset(offset).Limit(in.Size).Find()

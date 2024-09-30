@@ -14,7 +14,7 @@ type (
 	}
 )
 
-func (it *Api) Ping(at *ark.At, in *PingIn) (out *PingOut, err error) {
+func (it *Api) Ping(ctx *ark.Ctx, in *PingIn) (out *PingOut, err error) {
 	out = &PingOut{"pong", time.Now()}
 	return
 }

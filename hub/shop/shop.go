@@ -22,8 +22,8 @@ func New(srv *ark.Server) *Service {
 	return &Service{srv}
 }
 
-func (s *Service) TestShopItemGet(at *ark.At, in *TestShopItemGetIn) (out *TestShopItemGetOut, err error) {
+func (s *Service) TestShopItemGet(ctx *ark.Ctx, in *TestShopItemGetIn) (out *TestShopItemGetOut, err error) {
 	out = new(TestShopItemGetOut)
-	err = s.srv.RPC(at, "shop/test/get", in, out)
+	err = s.srv.RPC(ctx, "shop/test/get", in, out)
 	return
 }

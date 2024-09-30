@@ -14,10 +14,10 @@ type (
 	GetOut = model.User
 )
 
-func (it *Api) Get(at *ark.At, in *GetIn) (out *GetOut, err error) {
-	q := it.Query.WithContext(at)
+func (it *Api) Get(ctx *ark.Ctx, in *GetIn) (out *GetOut, err error) {
+	q := it.Query.WithContext(ctx)
 
-	user, _ := it.Caches.User.Get(at, in.Id)
+	user, _ := it.Caches.User.Get(ctx, in.Id)
 	if user != nil {
 		user.Username = "(cache)" + user.Username
 		return user, nil

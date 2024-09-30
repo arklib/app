@@ -13,7 +13,7 @@ type (
 	}
 )
 
-func (it *Api) TokenAuth(at *ark.At, in *TokenAuthIn) (out *TokenAuthOut, err error) {
+func (it *Api) TokenAuth(ctx *ark.Ctx, in *TokenAuthIn) (out *TokenAuthOut, err error) {
 	out = &TokenAuthOut{
 		in.UserId,
 	}

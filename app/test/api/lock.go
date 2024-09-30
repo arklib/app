@@ -15,8 +15,8 @@ type (
 	}
 )
 
-func (it *Api) Lock(at *ark.At, in *LockIn) (out *LockOut, err error) {
-	lock, err := it.Locks.User.Lock(at, in.UserId)
+func (it *Api) Lock(ctx *ark.Ctx, in *LockIn) (out *LockOut, err error) {
+	lock, err := it.Locks.User.Lock(ctx, in.UserId)
 	if err != nil {
 		return
 	}

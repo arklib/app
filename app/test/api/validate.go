@@ -15,7 +15,7 @@ type (
 	}
 )
 
-func (it *Api) Validate(at *ark.At, in *ValidateIn) (out *ValidateOut, err error) {
+func (it *Api) Validate(ctx *ark.Ctx, in *ValidateIn) (out *ValidateOut, err error) {
 	out = &ValidateOut{in.Mobile, in.Status}
 	return
 }
