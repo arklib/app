@@ -23,7 +23,7 @@ tasks:
       - "../ark/**/*.go"
       - "config.toml"
       - exclude: "hub/**/*.go"
-      - exclude: "app/model/query/*.go"
+      - exclude: "etc/query/*.go"
     deps: [ build ]
     cmds:
       - cmd: "killall -9 {{.APP_NAME}}"
