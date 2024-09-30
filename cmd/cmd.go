@@ -43,15 +43,15 @@ func (c *Command) init() *Command {
 	root.SetHelpCommand(&cobra.Command{Hidden: true})
 	c.Command = root
 
-	c.useTask()
-	c.useJob()
-	c.useJobRetry()
-	c.useDBMigrate()
-	c.useDBGen()
+	c.addTask()
+	c.addJob()
+	c.addJobRetry()
+	c.addDBMigrate()
+	c.addDBGen()
 	return c
 }
 
-func (c *Command) useTask() {
+func (c *Command) addTask() {
 	cmd := &cobra.Command{
 		Use:   "task",
 		Short: "run custom task",
@@ -62,7 +62,7 @@ func (c *Command) useTask() {
 	c.AddCommand(cmd)
 }
 
-func (c *Command) useJob() {
+func (c *Command) addJob() {
 	cmd := &cobra.Command{
 		Use:   "job",
 		Short: "run job",
@@ -73,7 +73,7 @@ func (c *Command) useJob() {
 	c.AddCommand(cmd)
 }
 
-func (c *Command) useJobRetry() {
+func (c *Command) addJobRetry() {
 	cmd := &cobra.Command{
 		Use:   "job:retry",
 		Short: "run job retry",
@@ -84,7 +84,7 @@ func (c *Command) useJobRetry() {
 	c.AddCommand(cmd)
 }
 
-func (c *Command) useDBMigrate() {
+func (c *Command) addDBMigrate() {
 	cmd := &cobra.Command{
 		Use:   "db:migrate",
 		Short: "database migrate",
@@ -99,7 +99,7 @@ func (c *Command) useDBMigrate() {
 	c.AddCommand(cmd)
 }
 
-func (c *Command) useDBGen() {
+func (c *Command) addDBGen() {
 	args := new(struct {
 		output string
 	})

@@ -30,7 +30,7 @@ func Define(app *app.App) {
 
 	// register task
 	userTask := task.New(app)
-	app.Task.Register("user:SyncUserFormERP", userTask.SyncUserFormERP)
+	app.Task.Define("user:SyncUserFormERP", userTask.SyncUserFormERP)
 
 	// add api
 	apiFn := api.New(app)
