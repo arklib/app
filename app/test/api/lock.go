@@ -20,7 +20,7 @@ func (it *Api) Lock(c *ark.Ctx, in *LockIn) (out *LockOut, err error) {
 	if err != nil {
 		return
 	}
-	defer func() { err = lock.Free() }()
+	defer func() { err = lock.Unlock() }()
 
 	time.Sleep(10 * time.Second)
 	out = &LockOut{"ok"}
