@@ -17,10 +17,10 @@ type App struct {
 	models   map[string]any
 	services map[string]any
 
-	Auth   *auth.Auth
 	DB     *gorm.DB
 	Query  *query.Query
 	Redis  redis.UniversalClient
+	Auth   *auth.Auth
 	Events *Events
 	Jobs   *Jobs
 	Locks  *Locks
@@ -44,8 +44,8 @@ func (app *App) init() *App {
 	app.initRedis()
 	app.initAuth()
 	app.initEvents()
-	app.initLocks()
 	app.initJobs()
+	app.initLocks()
 	app.initCaches()
 
 	app.Shop = shop.New(app.Server)

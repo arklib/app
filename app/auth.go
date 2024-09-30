@@ -18,11 +18,11 @@ func (app *App) initAuth() {
 		log.Fatalf("auth c: %v", err)
 	}
 
-	inst, err := auth.New(c.SecretKey, c.Expire, c.TokenLookup)
+	authInst, err := auth.New(c.SecretKey, c.Expire, c.TokenLookup)
 	if err != nil {
 		log.Fatalf("auth: %v", err)
 	}
 	app.Logger.Debug("[app] init auth")
 
-	app.Auth = inst
+	app.Auth = authInst
 }

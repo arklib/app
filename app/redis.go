@@ -18,12 +18,12 @@ func (app *App) initRedis() {
 		log.Fatalf("redis config: %v", err)
 	}
 
-	inst := redis.NewUniversalClient(&redis.UniversalOptions{
+	redisInst := redis.NewUniversalClient(&redis.UniversalOptions{
 		Addrs:    c.Addrs,
 		DB:       c.DB,
 		Password: c.Password,
 	})
 	app.Logger.Debug("[app] init redis")
 
-	app.Redis = inst
+	app.Redis = redisInst
 }
