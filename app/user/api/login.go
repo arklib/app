@@ -15,13 +15,13 @@ type (
 	}
 )
 
-func (it *Api) Login(c *ark.Ctx, in *LoginIn) (out *LoginOut, err error) {
-	q := it.Query.WithContext(c)
-	userQuery := it.Query.User
+func (it *Api) Login(ctx *ark.Ctx, in *LoginIn) (out *LoginOut, err error) {
+	q := it.Query.WithContext(ctx)
+	u := it.Query.User
 
 	user, err := q.User.Where(
-		userQuery.Username.Eq(in.Username),
-		userQuery.Password.Eq(in.Password),
+		u.Username.Eq(in.Username),
+		u.Password.Eq(in.Password),
 	).First()
 	errx.Assert(err, "auth failed")
 

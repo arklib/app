@@ -14,7 +14,7 @@ type (
 	}
 )
 
-func (it *Api) Upload(c *ark.Ctx, in *UploadIn) (out *UploadOut, err error) {
+func (it *Api) Upload(ctx *ark.Ctx, in *UploadIn) (out *UploadOut, err error) {
 	file, err := c.HttpReq().FormFile("file")
 	errx.Assert(err)
 

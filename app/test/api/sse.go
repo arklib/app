@@ -16,7 +16,7 @@ type (
 	SSEOut struct{}
 )
 
-func (it *Api) SSE(c *ark.Ctx, in *SSEIn) (out *SSEOut, err error) {
+func (it *Api) SSE(ctx *ark.Ctx, in *SSEIn) (out *SSEOut, err error) {
 	req := c.HttpReq()
 
 	// Last-Emitter-Id

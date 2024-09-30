@@ -14,7 +14,7 @@ type (
 	ErrorOut struct{}
 )
 
-func (it *Api) Error(c *ark.Ctx, in *ErrorIn) (out *ErrorOut, err error) {
+func (it *Api) Error(ctx *ark.Ctx, in *ErrorIn) (out *ErrorOut, err error) {
 	stdErr := errors.New("std error")
 
 	switch in.Type {

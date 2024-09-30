@@ -16,10 +16,10 @@ type (
 	CreateOut = model.User
 )
 
-func (it *Api) Create(c *ark.Ctx, in *CreateIn) (out *CreateOut, err error) {
-	q := it.Query.WithContext(c)
+func (it *Api) Create(ctx *ark.Ctx, in *CreateIn) (out *CreateOut, err error) {
+	q := it.Query.WithContext(ctx)
 
-	ping, err := it.testApi.Ping(c, nil)
+	ping, err := it.testApi.Ping(ctx, nil)
 
 	it.Logger.Info(ping.Message)
 
@@ -28,16 +28,15 @@ func (it *Api) Create(c *ark.Ctx, in *CreateIn) (out *CreateOut, err error) {
 		Username: in.Username,
 		Password: in.Password,
 	}
-	// event: user.create
-	err = it.Events.UserCreate.Dispatch(c, user)
-	errx.Assert(err, "user create event failed")
-
-	// db: user create
 	err = q.User.Create(user)
 	errx.Assert(err, "create failed")
 
+	// dispatch user create
+	err = it.Events.UserCreate.Dispatch(ctx, user)
+	errx.Assert(err, "user create event failed")
+
 	// cache: user
-	err = it.Caches.User.Set(c, user.Id, user)
+	err = it.Caches.User.Set(ctx, user.Id, user)
 	errx.Assert(err, "cache failed")
 
 	out = user
