@@ -15,8 +15,8 @@ type (
 	}
 )
 
-func (it *Api) Login(ctx *ark.Ctx, in *LoginIn) (out *LoginOut, err error) {
-	q := it.Query.WithContext(ctx)
+func (it *Api) Login(c *ark.Ctx, in *LoginIn) (out *LoginOut, err error) {
+	q := it.Query.WithContext(c)
 	userQuery := it.Query.User
 
 	user, err := q.User.Where(

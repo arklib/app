@@ -40,7 +40,7 @@ func (app *App) GetDB() *gorm.DB {
 	}
 
 	if app.IsDev() {
-		dbInst = dbInst.Debug()
+		// dbInst = dbInst.Debug()
 	}
 	app.Logger.Debug("[app] init db")
 

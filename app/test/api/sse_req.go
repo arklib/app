@@ -11,7 +11,7 @@ type (
 	SSEReqOut struct{}
 )
 
-func (it *Api) SSEReq(ctx *ark.Ctx, in *SSEReqIn) (out *SSEReqOut, err error) {
+func (it *Api) SSEReq(c *ark.Ctx, in *SSEReqIn) (out *SSEReqOut, err error) {
 	cli := sse.NewClient("http://127.0.0.1:8888/api/test/sse")
 
 	evCh := make(chan *sse.Event)

@@ -13,16 +13,16 @@ type (
 	}
 )
 
-func (it *Api) Cache(ctx *ark.Ctx, in *CacheIn) (out *CacheOut, err error) {
+func (it *Api) Cache(c *ark.Ctx, in *CacheIn) (out *CacheOut, err error) {
 	out = &CacheOut{}
 
-	val, err := it.Caches.Any.Get(ctx, "time")
+	val, err := it.Caches.Any.Get(c, "time")
 	if val != nil {
 		out.Time = *val
 		return
 	}
 
 	out.Time = time.Now().Format(time.DateTime)
-	err = it.Caches.Any.Set(ctx, "time", &out.Time)
+	err = it.Caches.Any.Set(c, "time", &out.Time)
 	return
 }

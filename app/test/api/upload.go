@@ -14,13 +14,13 @@ type (
 	}
 )
 
-func (it *Api) Upload(ctx *ark.Ctx, in *UploadIn) (out *UploadOut, err error) {
-	file, err := ctx.HttpReq().FormFile("file")
+func (it *Api) Upload(c *ark.Ctx, in *UploadIn) (out *UploadOut, err error) {
+	file, err := c.HttpReq().FormFile("file")
 	errx.Assert(err)
 
 	// save file
 	uploadPath := fmt.Sprintf("public/storage/%s", file.Filename)
-	err = ctx.HttpReq().SaveUploadedFile(file, uploadPath)
+	err = c.HttpReq().SaveUploadedFile(file, uploadPath)
 	errx.Assert(err)
 
 	out = &UploadOut{file.Filename}

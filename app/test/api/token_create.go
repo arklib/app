@@ -18,7 +18,7 @@ type (
 	}
 )
 
-func (it *Api) TokenCreate(ctx *ark.Ctx, in *TokenCreateIn) (out *TokenCreateOut, err error) {
+func (it *Api) TokenCreate(c *ark.Ctx, in *TokenCreateIn) (out *TokenCreateOut, err error) {
 	payload := auth.Payload{
 		"userId": in.UserId,
 	}

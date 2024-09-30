@@ -13,8 +13,8 @@ type (
 	ShopItemRPCOut = shop.TestShopItemGetOut
 )
 
-func (it *Api) ShopItemRPC(ctx *ark.Ctx, in *ShopItemRPCIn) (out *ShopItemRPCOut, err error) {
-	out, err = it.Shop.TestShopItemGet(ctx, &shop.TestShopItemGetIn{
+func (it *Api) ShopItemRPC(c *ark.Ctx, in *ShopItemRPCIn) (out *ShopItemRPCOut, err error) {
+	out, err = it.Shop.TestShopItemGet(c, &shop.TestShopItemGetIn{
 		Id: in.Id,
 	})
 	errx.Assert(err)
