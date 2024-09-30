@@ -35,19 +35,19 @@ func (c *Command) init() *Command {
 			c.app.Run()
 		},
 	}
-	root.PersistentFlags().StringVarP(&args.config, "config", "c", "./config.toml", "c config file")
+	root.PersistentFlags().StringVarP(&args.config, "config", "c", "./config.toml", "app config file")
 	root.SetHelpCommand(&cobra.Command{Hidden: true})
 	c.Command = root
 
-	c.addTask()
-	c.addJob()
-	c.addJobRetry()
-	c.addDBMigrate()
-	c.addDBGen()
+	c.useTask()
+	c.useJob()
+	c.useJobRetry()
+	c.useDBMigrate()
+	c.useDBGen()
 	return c
 }
 
-func (c *Command) addTask() {
+func (c *Command) useTask() {
 	cmd := &cobra.Command{
 		Use:   "task",
 		Short: "run custom task",
@@ -58,7 +58,7 @@ func (c *Command) addTask() {
 	c.AddCommand(cmd)
 }
 
-func (c *Command) addJob() {
+func (c *Command) useJob() {
 	cmd := &cobra.Command{
 		Use:   "job",
 		Short: "run job",
@@ -69,7 +69,7 @@ func (c *Command) addJob() {
 	c.AddCommand(cmd)
 }
 
-func (c *Command) addJobRetry() {
+func (c *Command) useJobRetry() {
 	cmd := &cobra.Command{
 		Use:   "job:retry",
 		Short: "run job retry",
@@ -80,13 +80,13 @@ func (c *Command) addJobRetry() {
 	c.AddCommand(cmd)
 }
 
-func (c *Command) addDBMigrate() {
+func (c *Command) useDBMigrate() {
 	cmd := &cobra.Command{
 		Use:   "db:migrate",
 		Short: "database migrate",
 		Run: func(*cobra.Command, []string) {
 			models := c.app.GetModels()
-			err := c.app.GetDB().AutoMigrate(models)
+			err := c.app.GetDB().AutoMigrate(models...)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -95,7 +95,7 @@ func (c *Command) addDBMigrate() {
 	c.AddCommand(cmd)
 }
 
-func (c *Command) addDBGen() {
+func (c *Command) useDBGen() {
 	args := new(struct {
 		output string
 	})
@@ -107,6 +107,6 @@ func (c *Command) addDBGen() {
 			gen.BuildQuerier(c.app, args.output)
 		},
 	}
-	cmd.PersistentFlags().StringVar(&args.output, "output", "etc/query", "output path")
+	cmd.PersistentFlags().StringVarP(&args.output, "output", "o", "etc/query", "output path")
 	c.AddCommand(cmd)
 }

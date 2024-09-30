@@ -17,15 +17,14 @@ type App struct {
 	models   map[string]any
 	services map[string]any
 
-	Auth  *auth.Auth
-	DB    *gorm.DB
-	Query *query.Query
-	Redis redis.UniversalClient
-
-	Locks  *Locks
-	Jobs   *Jobs
-	Caches *Caches
+	Auth   *auth.Auth
+	DB     *gorm.DB
+	Query  *query.Query
+	Redis  redis.UniversalClient
 	Events *Events
+	Jobs   *Jobs
+	Locks  *Locks
+	Caches *Caches
 
 	Shop *shop.Service
 }
@@ -37,18 +36,18 @@ func New(srv *ark.Server) *App {
 		models:   make(map[string]any),
 		services: make(map[string]any),
 	}
-
-	app.initAuth()
-	app.initEvents()
-	app.initLocks()
-	app.initJobs()
-	app.initCaches()
-	return app
+	return app.init()
 }
 
 func (app *App) init() *App {
 	app.GetDB()
 	app.GetRedis()
+	app.initAuth()
+	app.initEvents()
+	app.initLocks()
+	app.initJobs()
+	app.initCaches()
+
 	app.Shop = shop.New(app.Server)
 	return app
 }
@@ -94,8 +93,8 @@ func (app *App) GetModel(name string) any {
 
 func (app *App) GetModels() []any {
 	var models []any
-	for _, v := range app.models {
-		models = append(models, v)
+	for _, model := range app.models {
+		models = append(models, model)
 	}
 	return models
 }

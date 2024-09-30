@@ -6,7 +6,7 @@ import (
 	"github.com/arklib/ark/auth"
 )
 
-func (app *App) initAuth() *auth.Auth {
+func (app *App) initAuth() {
 	c := new(struct {
 		Expire      int64 `default:"86400"`
 		SecretKey   string
@@ -25,5 +25,4 @@ func (app *App) initAuth() *auth.Auth {
 	app.Logger.Debug("[app] init auth")
 
 	app.Auth = authInst
-	return authInst
 }
