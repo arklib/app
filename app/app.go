@@ -65,23 +65,6 @@ func (app *App) Use(handlers ...func(*App)) *App {
 	return app
 }
 
-func (app *App) AddModel(name string, instance any) *App {
-	app.models[name] = instance
-	return app
-}
-
-func (app *App) GetModel(name string) any {
-	return app.models[name]
-}
-
-func (app *App) GetModels() []any {
-	var models []any
-	for _, v := range app.models {
-		models = append(models, v)
-	}
-	return models
-}
-
 func (app *App) AddApi(name string, instance any) *App {
 	app.apis[name] = instance
 	return app
@@ -98,4 +81,21 @@ func (app *App) AddService(name string, instance any) *App {
 
 func (app *App) GetService(name string) any {
 	return app.services[name]
+}
+
+func (app *App) AddModel(name string, instance any) *App {
+	app.models[name] = instance
+	return app
+}
+
+func (app *App) GetModel(name string) any {
+	return app.models[name]
+}
+
+func (app *App) GetModels() []any {
+	var models []any
+	for _, v := range app.models {
+		models = append(models, v)
+	}
+	return models
 }
