@@ -1,12 +1,14 @@
 package service
 
-import "github.com/arklib/ark"
+import (
+	"context"
+)
 
 type (
 	CreateIn  struct{}
 	CreateOut struct{}
 )
 
-func (it *Service) UserCreate(ctx *ark.Ctx, in *CreateIn) (out *CreateOut, err error) {
+func (it *Service) UserCreate(ctx context.Context, in *CreateIn) (out *CreateOut, err error) {
 	return
 }

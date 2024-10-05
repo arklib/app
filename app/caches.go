@@ -7,23 +7,24 @@ import (
 )
 
 type Caches struct {
-	Any  cache.Cache[string]
+	KV   cache.Cache[string]
 	User cache.Cache[model.User]
 }
 
 func (app *App) initCaches() {
 	driver := cache.NewRedisDriver(app.Redis)
 
-	app.Caches = &Caches{
-		Any: cache.Define[string](cache.Config{
-			Driver: driver,
-			Scene:  "any",
-			TTL:    5 * 60,
-		}),
-		User: cache.Define[model.User](cache.Config{
-			Driver: driver,
-			Scene:  "user",
-			TTL:    10 * 60,
-		}),
-	}
+	caches := new(Caches)
+	caches.KV = cache.Define[string](cache.Config{
+		Driver: driver,
+		Name:   "kv",
+		TTL:    5 * 60,
+	})
+
+	caches.User = cache.Define[model.User](cache.Config{
+		Driver: driver,
+		Name:   "user",
+		TTL:    10 * 60,
+	})
+	app.Caches = caches
 }

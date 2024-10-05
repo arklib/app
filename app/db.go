@@ -11,12 +11,13 @@ import (
 )
 
 func (app *App) initDB() {
-	c := new(struct {
+	var c struct {
 		DSN string
-	})
-	err := app.BindConfig("db", c)
+	}
+
+	err := app.BindConfig("db", &c)
 	if err != nil {
-		log.Fatalf("db c: %v", err)
+		log.Fatalf("db config: %v", err)
 	}
 
 	db, err := gorm.Open(mysql.New(mysql.Config{
@@ -32,13 +33,12 @@ func (app *App) initDB() {
 		},
 	})
 	if err != nil {
-		log.Fatalf("dbInst connect: %v", err)
+		log.Fatalf("db connect: %v", err)
 	}
 
 	if app.IsDev() {
-		// dbInst = dbInst.Debug()
+		// db = dbInst.Debug()
 	}
-	app.Logger.Debug("[app] init db")
 
 	app.DB = db
 	app.Query = query.Use(db)

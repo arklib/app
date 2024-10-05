@@ -8,8 +8,7 @@ import (
 
 func Define(app *app.App) {
 	// add api
-	apiFn := api.New(app)
-	app.AddApi("test", apiFn)
+	testApi := api.New(app)
 
 	// auth middleware
 	authMw := app.Auth.HttpMiddleware("user")
@@ -20,7 +19,7 @@ func Define(app *app.App) {
 		{
 			Method:  "GET",
 			Path:    "ping",
-			Handler: ApiHandler[api.PingIn, api.PingOut](apiFn.Ping),
+			Handler: ApiHandler[api.PingIn, api.PingOut](testApi.Ping),
 			ApiMiddlewares: ApiMiddlewares{
 				func(p *ApiPayload) error {
 					err := p.Next()
@@ -35,41 +34,41 @@ func Define(app *app.App) {
 		},
 		{
 			Path:    "cache",
-			Handler: ApiHandler[api.CacheIn, api.CacheOut](apiFn.Cache)},
+			Handler: ApiHandler[api.CacheIn, api.CacheOut](testApi.Cache)},
 		{
 			Path:    "lock",
-			Handler: ApiHandler[api.LockIn, api.LockOut](apiFn.Lock),
+			Handler: ApiHandler[api.LockIn, api.LockOut](testApi.Lock),
 		},
 		{
 			Path:    "validate",
-			Handler: ApiHandler[api.ValidateIn, api.ValidateOut](apiFn.Validate),
+			Handler: ApiHandler[api.ValidateIn, api.ValidateOut](testApi.Validate),
 		},
 		{
 			Path:    "upload",
-			Handler: ApiHandler[api.UploadIn, api.UploadOut](apiFn.Upload),
+			Handler: ApiHandler[api.UploadIn, api.UploadOut](testApi.Upload),
 		},
 		{
 			Path:    "sse",
-			Handler: ApiHandler[api.SSEIn, api.SSEOut](apiFn.SSE),
+			Handler: ApiHandler[api.SSEIn, api.SSEOut](testApi.SSE),
 		},
 		{
 			Path:    "sse.req",
-			Handler: ApiHandler[api.SSEReqIn, api.SSEReqOut](apiFn.SSEReq),
+			Handler: ApiHandler[api.SSEReqIn, api.SSEReqOut](testApi.SSEReq),
 		},
 		{
 			Path:    "shop.item.rpc",
-			Handler: ApiHandler[api.ShopItemRPCIn, api.ShopItemRPCOut](apiFn.ShopItemRPC),
+			Handler: ApiHandler[api.ShopItemRPCIn, api.ShopItemRPCOut](testApi.ShopItemRPC),
 		},
 		{
 			Path:    "error",
-			Handler: ApiHandler[api.ErrorIn, api.ErrorOut](apiFn.Error)},
+			Handler: ApiHandler[api.ErrorIn, api.ErrorOut](testApi.Error)},
 		{
 			Path:    "token/create",
-			Handler: ApiHandler[api.TokenCreateIn, api.TokenCreateOut](apiFn.TokenCreate),
+			Handler: ApiHandler[api.TokenCreateIn, api.TokenCreateOut](testApi.TokenCreate),
 		},
 		{
 			Path:            "token/auth",
-			Handler:         ApiHandler[api.TokenAuthIn, api.TokenAuthOut](apiFn.TokenAuth),
+			Handler:         ApiHandler[api.TokenAuthIn, api.TokenAuthOut](testApi.TokenAuth),
 			HttpMiddlewares: HttpMiddlewares{authMw},
 		},
 	})
@@ -79,7 +78,7 @@ func Define(app *app.App) {
 	rpc.AddRoutes(RPCRoutes{
 		{
 			Path:    "get",
-			Handler: ApiHandler[api.ShopItemGetIn, api.ShopItemGetOut](apiFn.ShopItemGet),
+			Handler: ApiHandler[api.ShopItemGetIn, api.ShopItemGetOut](testApi.ShopItemGet),
 			ApiMiddlewares: ApiMiddlewares{
 				func(payload *ApiPayload) error {
 					err := payload.Next()

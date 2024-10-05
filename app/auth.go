@@ -7,22 +7,20 @@ import (
 )
 
 func (app *App) initAuth() {
-	c := new(struct {
+	var c struct {
 		Expire      int64 `default:"86400"`
 		SecretKey   string
 		TokenLookup string `default:"header: Authorization"`
-	})
+	}
 
-	err := app.BindConfig("auth", c)
+	err := app.BindConfig("auth", &c)
 	if err != nil {
-		log.Fatalf("auth c: %v", err)
+		log.Fatalf("auth config: %v", err)
 	}
 
 	authInst, err := auth.New(c.SecretKey, c.Expire, c.TokenLookup)
 	if err != nil {
 		log.Fatalf("auth: %v", err)
 	}
-	app.Logger.Debug("[app] init auth")
-
 	app.Auth = authInst
 }

@@ -15,12 +15,12 @@ type (
 )
 
 func (it *Api) Upload(ctx *ark.Ctx, in *UploadIn) (out *UploadOut, err error) {
-	file, err := c.HttpReq().FormFile("file")
+	file, err := ctx.Http().FormFile("file")
 	errx.Assert(err)
 
 	// save file
 	uploadPath := fmt.Sprintf("public/storage/%s", file.Filename)
-	err = c.HttpReq().SaveUploadedFile(file, uploadPath)
+	err = ctx.Http().SaveUploadedFile(file, uploadPath)
 	errx.Assert(err)
 
 	out = &UploadOut{file.Filename}

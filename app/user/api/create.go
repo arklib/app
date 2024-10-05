@@ -32,11 +32,11 @@ func (it *Api) Create(ctx *ark.Ctx, in *CreateIn) (out *CreateOut, err error) {
 	errx.Assert(err, "create failed")
 
 	// dispatch user create
-	err = it.Events.UserCreate.Dispatch(ctx, user)
-	errx.Assert(err, "user create event failed")
+	err = it.Hooks.UserCreateAfter.Emit(ctx, user)
+	errx.Assert(err, "user create hook failed")
 
 	// cache: user
-	err = it.Caches.User.Set(ctx, user.Id, user)
+	err = it.Caches.User.Set(ctx, user.ID, user)
 	errx.Assert(err, "cache failed")
 
 	out = user

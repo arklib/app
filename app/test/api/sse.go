@@ -17,7 +17,7 @@ type (
 )
 
 func (it *Api) SSE(ctx *ark.Ctx, in *SSEIn) (out *SSEOut, err error) {
-	req := c.HttpReq()
+	req := ctx.Http()
 
 	// Last-Emitter-Id
 	lastEventID := sse.GetLastEventID(req)

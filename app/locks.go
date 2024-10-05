@@ -11,11 +11,11 @@ type Locks struct {
 func (app *App) initLocks() {
 	driver := lock.NewRedisDriver(app.Redis)
 
-	app.Locks = &Locks{
-		User: lock.Define(lock.Config{
-			Driver: driver,
-			Scene:  "user:create",
-			TTL:    10,
-		}),
-	}
+	locks := new(Locks)
+	locks.User = lock.Define(lock.Config{
+		Driver: driver,
+		Name:   "user_create",
+		TTL:    10,
+	})
+	app.Locks = locks
 }

@@ -15,14 +15,15 @@ type (
 
 func (it *Api) Cache(ctx *ark.Ctx, in *CacheIn) (out *CacheOut, err error) {
 	out = &CacheOut{}
+	kv := it.Caches.KV
 
-	val, err := it.Caches.Any.Get(ctx, "time")
+	val, err := kv.Get(ctx, "time")
 	if val != nil {
 		out.Time = *val
 		return
 	}
 
 	out.Time = time.Now().Format(time.DateTime)
-	err = it.Caches.Any.Set(ctx, "time", &out.Time)
+	err = kv.Set(ctx, "time", &out.Time)
 	return
 }

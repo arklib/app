@@ -10,7 +10,7 @@ import (
 	"demo/etc/gen"
 	"github.com/arklib/ark"
 	"github.com/arklib/ark/config"
-	"github.com/arklib/ark/job"
+	"github.com/arklib/ark/queue"
 )
 
 type Command struct {
@@ -23,9 +23,9 @@ func Execute() {
 }
 
 func (c *Command) init() *Command {
-	args := new(struct {
+	var args struct {
 		config string
-	})
+	}
 
 	root := &cobra.Command{
 		Use:   "app",
@@ -44,8 +44,7 @@ func (c *Command) init() *Command {
 	c.Command = root
 
 	c.addTask()
-	c.addJob()
-	c.addJobRetry()
+	c.addRetryTask()
 	c.addDBMigrate()
 	c.addDBGen()
 	return c
@@ -54,31 +53,20 @@ func (c *Command) init() *Command {
 func (c *Command) addTask() {
 	cmd := &cobra.Command{
 		Use:   "task",
-		Short: "run custom task",
-		Run: func(cmd *cobra.Command, args []string) {
-			c.app.Task.Run(args)
+		Short: "run queue task",
+		Run: func(cmd *cobra.Command, tasks []string) {
+			queue.Run(c.app.Queues, tasks)
 		},
 	}
 	c.AddCommand(cmd)
 }
 
-func (c *Command) addJob() {
+func (c *Command) addRetryTask() {
 	cmd := &cobra.Command{
-		Use:   "job",
-		Short: "run job",
-		Run: func(cmd *cobra.Command, args []string) {
-			job.Run(c.app.Jobs, args)
-		},
-	}
-	c.AddCommand(cmd)
-}
-
-func (c *Command) addJobRetry() {
-	cmd := &cobra.Command{
-		Use:   "job:retry",
-		Short: "run job retry",
-		Run: func(cmd *cobra.Command, args []string) {
-			job.RunRetry(c.app.Jobs, args)
+		Use:   "task:retry",
+		Short: "run queue task retry",
+		Run: func(cmd *cobra.Command, tasks []string) {
+			queue.RunRetry(c.app.Queues, tasks)
 		},
 	}
 	c.AddCommand(cmd)
@@ -100,9 +88,9 @@ func (c *Command) addDBMigrate() {
 }
 
 func (c *Command) addDBGen() {
-	args := new(struct {
+	var args struct {
 		output string
-	})
+	}
 
 	cmd := &cobra.Command{
 		Use:   "gen:querier",

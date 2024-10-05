@@ -7,13 +7,13 @@ import (
 )
 
 func (app *App) initRedis() {
-	c := new(struct {
+	var c struct {
 		Addrs    []string `default:":6379"`
 		DB       int
 		Password string
-	})
+	}
 
-	err := app.BindConfig("redis", c)
+	err := app.BindConfig("redis", &c)
 	if err != nil {
 		log.Fatalf("redis config: %v", err)
 	}
@@ -23,7 +23,5 @@ func (app *App) initRedis() {
 		DB:       c.DB,
 		Password: c.Password,
 	})
-	app.Logger.Debug("[app] init redis")
-
 	app.Redis = redisInst
 }

@@ -1,14 +1,14 @@
 package user
 
 import (
+	"github.com/spf13/cobra"
+
 	"demo/app"
 	"demo/app/user/api"
-	"demo/app/user/event"
-	"demo/app/user/job"
 	"demo/app/user/model"
 	"demo/app/user/service"
-	"demo/app/user/task"
 	. "github.com/arklib/ark"
+	"github.com/arklib/ark/queue"
 )
 
 func Define(app *app.App) {
@@ -16,36 +16,41 @@ func Define(app *app.App) {
 	app.AddModel("user", new(model.User))
 	app.AddModel("user_address", new(model.UserAddress))
 
-	// add service
-	userService := service.New(app)
-	app.AddService("user", userService)
+	// service
+	userSvc := service.New(app)
 
-	// add event
-	userEvent := event.New(app)
-	app.Events.UserCreate.Use(userEvent.SendUserCreateSMS)
+	// add command
+	app.AddCommand(&cobra.Command{
+		Use: "user:sync_user_form_erp",
+		Run: func(*cobra.Command, []string) {
+			_ = userSvc.SyncUserFormERP()
+		},
+	})
 
-	// add job
-	userJob := job.New(app)
-	app.Jobs.SyncUser.Use(userJob.SyncUser)
+	// add hook
+	app.Hooks.UserCreateAfter.Add("user_create_print", userSvc.UserCreatePrint)
 
-	// register task
-	userTask := task.New(app)
-	app.Task.Define("user:SyncUserFormERP", userTask.SyncUserFormERP)
+	// add queue task
+	app.Queues.UserCreate.AddTask("send_user_create_mail", userSvc.SendUserCreateMail,
+		queue.TaskConfig{MaxRetry: 1, RetryInterval: 15},
+	)
+	app.Queues.UserCreate.AddTask("sync_user_to_redis", userSvc.SyncUserToRedis,
+		queue.TaskConfig{RetryInterval: 5},
+	)
 
-	// add api
-	apiFn := api.New(app)
-	app.AddApi("user", apiFn)
+	// api
+	userApi := api.New(app)
 
 	// add routes
 	router := app.HttpServer.Group("api/user")
 	router.AddRoutes(HttpRoutes{
 		{
 			Path:    "login",
-			Handler: ApiHandler[api.LoginIn, api.LoginOut](apiFn.Login),
+			Handler: ApiHandler[api.LoginIn, api.LoginOut](userApi.Login),
 		},
 		{
 			Path:    "create",
-			Handler: ApiHandler[api.CreateIn, api.CreateOut](apiFn.Create),
+			Handler: ApiHandler[api.CreateIn, api.CreateOut](userApi.Create),
 		},
 	})
 
@@ -53,11 +58,11 @@ func Define(app *app.App) {
 	router.AddRoutes(HttpRoutes{
 		{
 			Path:    "get",
-			Handler: ApiHandler[api.GetIn, api.GetOut](apiFn.Get),
+			Handler: ApiHandler[api.GetIn, api.GetOut](userApi.Get),
 		},
 		{
 			Path:    "search",
-			Handler: ApiHandler[api.SearchIn, api.SearchOut](apiFn.Search),
+			Handler: ApiHandler[api.SearchIn, api.SearchOut](userApi.Search),
 		},
 	}, app.Auth.HttpMiddleware("user"))
 }

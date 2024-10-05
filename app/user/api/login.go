@@ -26,7 +26,7 @@ func (it *Api) Login(ctx *ark.Ctx, in *LoginIn) (out *LoginOut, err error) {
 	errx.Assert(err, "auth failed")
 
 	payload := map[string]any{
-		"userId": user.Id,
+		"userId": user.ID,
 	}
 	token, err := it.Auth.NewToken("user", payload)
 	errx.Assert(err, "create token failed")
