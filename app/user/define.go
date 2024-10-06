@@ -1,8 +1,6 @@
 package user
 
 import (
-	"github.com/spf13/cobra"
-
 	"demo/app"
 	"demo/app/user/api"
 	"demo/app/user/model"
@@ -19,13 +17,8 @@ func Define(app *app.App) {
 	// service
 	userSvc := service.New(app)
 
-	// add command
-	app.AddCommand(&cobra.Command{
-		Use: "user:sync_user_form_erp",
-		Run: func(*cobra.Command, []string) {
-			_ = userSvc.SyncUserFormERP()
-		},
-	})
+	// add custom task
+	app.Task.Add("user.sync_user_form_erp", userSvc.SyncUserFormERP)
 
 	// add hook
 	app.Hooks.UserCreateAfter.Add("user_create_print", userSvc.UserCreatePrint)

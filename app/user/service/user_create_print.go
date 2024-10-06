@@ -9,6 +9,6 @@ import (
 )
 
 func (it *Service) UserCreatePrint(ctx context.Context, user *model.User, next hook.Next) error {
-	it.Logger.Noticef("create user: %v", user)
+	it.Logger.Infof("create user: %#v", user)
 	return next()
 }

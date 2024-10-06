@@ -2,6 +2,7 @@ package app
 
 import (
 	"github.com/arklib/ark/lock"
+	"github.com/arklib/ark/lock/driver"
 )
 
 type Locks struct {
@@ -9,13 +10,13 @@ type Locks struct {
 }
 
 func (app *App) initLocks() {
-	driver := lock.NewRedisDriver(app.Redis)
+	redisDriver := driver.NewRedisDriver(app.Redis)
 
 	locks := new(Locks)
 	locks.User = lock.Define(lock.Config{
-		Driver: driver,
 		Name:   "user_create",
 		TTL:    10,
+		Driver: redisDriver,
 	})
 	app.Locks = locks
 }

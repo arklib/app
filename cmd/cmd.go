@@ -39,37 +39,16 @@ func (c *Command) init() *Command {
 			c.app.Run()
 		},
 	}
-	root.PersistentFlags().StringVarP(&args.config, "config", "c", "./config.toml", "app config file")
+	root.PersistentFlags().StringVar(&args.config, "config", "./config.toml", "app config file")
 	root.SetHelpCommand(&cobra.Command{Hidden: true})
 	c.Command = root
 
-	c.addTask()
-	c.addRetryTask()
 	c.addDBMigrate()
 	c.addDBGen()
+	c.addQueueTask()
+	c.addQueueTaskRetry()
+	c.addTask()
 	return c
-}
-
-func (c *Command) addTask() {
-	cmd := &cobra.Command{
-		Use:   "task",
-		Short: "run queue task",
-		Run: func(cmd *cobra.Command, tasks []string) {
-			queue.Run(c.app.Queues, tasks)
-		},
-	}
-	c.AddCommand(cmd)
-}
-
-func (c *Command) addRetryTask() {
-	cmd := &cobra.Command{
-		Use:   "task:retry",
-		Short: "run queue task retry",
-		Run: func(cmd *cobra.Command, tasks []string) {
-			queue.RunRetry(c.app.Queues, tasks)
-		},
-	}
-	c.AddCommand(cmd)
 }
 
 func (c *Command) addDBMigrate() {
@@ -100,5 +79,42 @@ func (c *Command) addDBGen() {
 		},
 	}
 	cmd.PersistentFlags().StringVarP(&args.output, "output", "o", "etc/query", "output path")
+	c.AddCommand(cmd)
+}
+
+func (c *Command) addQueueTask() {
+	var args struct {
+		concurrent int
+	}
+	cmd := &cobra.Command{
+		Use:   "queue:task",
+		Short: "run queue task",
+		Run: func(cmd *cobra.Command, tasks []string) {
+			queue.Run(c.app.Queues, tasks, args.concurrent)
+		},
+	}
+	cmd.PersistentFlags().IntVarP(&args.concurrent, "concurrent", "c", 1, "task concurrency")
+	c.AddCommand(cmd)
+}
+
+func (c *Command) addQueueTaskRetry() {
+	cmd := &cobra.Command{
+		Use:   "queue:taskRetry",
+		Short: "run queue task retry",
+		Run: func(cmd *cobra.Command, tasks []string) {
+			queue.RunRetry(c.app.Queues, tasks)
+		},
+	}
+	c.AddCommand(cmd)
+}
+
+func (c *Command) addTask() {
+	cmd := &cobra.Command{
+		Use:   "task",
+		Short: "run custom task",
+		Run: func(cmd *cobra.Command, args []string) {
+			c.app.Task.Run(args...)
+		},
+	}
 	c.AddCommand(cmd)
 }

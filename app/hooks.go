@@ -11,10 +11,10 @@ type Hooks struct {
 
 func (app *App) initHooks() {
 	hooks := new(Hooks)
+
 	hooks.UserCreateAfter = hook.Define[model.User](
 		"user_create_print",
-	)
-	hooks.UserCreateAfter.Notify(app.Queues.UserCreate.Send)
+	).Notify(app.Queues.UserCreate.Push)
 
 	app.Hooks = hooks
 }
