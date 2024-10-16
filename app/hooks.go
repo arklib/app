@@ -13,7 +13,7 @@ func (app *App) initHooks() {
 	hooks := new(Hooks)
 
 	hooks.UserCreateAfter = hook.Define[model.User](
-		"user_create_print",
+		"user.print_create",
 	).Notify(app.Queues.UserCreate.Push)
 
 	app.Hooks = hooks

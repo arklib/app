@@ -18,16 +18,16 @@ func Define(app *app.App) {
 	userSvc := service.New(app)
 
 	// add custom task
-	app.Task.Add("user.sync_user_form_erp", userSvc.SyncUserFormERP)
+	app.Task.Add("user.sync_form_erp", userSvc.SyncFormERP)
 
 	// add hook
-	app.Hooks.UserCreateAfter.Add("user_create_print", userSvc.UserCreatePrint)
+	app.Hooks.UserCreateAfter.Add("user.print_create", userSvc.PrintCreate)
 
 	// add queue task
-	app.Queues.UserCreate.AddTask("send_user_create_mail", userSvc.SendUserCreateMail,
+	app.Queues.UserCreate.AddTask("user.send_create_mail", userSvc.SendCreateMail,
 		queue.TaskConfig{MaxRetry: 1, RetryInterval: 15},
 	)
-	app.Queues.UserCreate.AddTask("sync_user_to_redis", userSvc.SyncUserToRedis,
+	app.Queues.UserCreate.AddTask("user.sync_to_redis", userSvc.SyncToRedis,
 		queue.TaskConfig{RetryInterval: 5},
 	)
 
