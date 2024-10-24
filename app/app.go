@@ -6,7 +6,7 @@ import (
 	"github.com/redis/go-redis/v9"
 
 	"demo/etc/query"
-	"demo/hub/shop"
+	"demo/etc/rpc/shop"
 	"github.com/arklib/ark"
 	"github.com/arklib/ark/auth"
 )
@@ -24,7 +24,7 @@ type App struct {
 	Queues *Queues
 	Hooks  *Hooks
 
-	Shop *shop.Service
+	ShopSvc *shop.Service
 }
 
 func New(srv *ark.Server) *App {
@@ -43,12 +43,12 @@ func (app *App) init() *App {
 	app.initCaches()
 	app.initQueues()
 	app.initHooks()
-	app.Shop = shop.New(app.Server)
+	app.ShopSvc = shop.New(app.Server)
 	return app
 }
 
 func (app *App) Run() *App {
-	app.init().Server.Run()
+	app.Server.Run()
 	return app
 }
 

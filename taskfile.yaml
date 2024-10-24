@@ -22,7 +22,7 @@ tasks:
       - "**/*.go"
       - "../ark/**/*.go"
       - "config.toml"
-      - exclude: "hub/**/*.go"
+      - exclude: "etc/rpc/**/*.go"
       - exclude: "etc/query/*.go"
     deps: [ build ]
     cmds:

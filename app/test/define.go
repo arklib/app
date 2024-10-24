@@ -34,7 +34,8 @@ func Define(app *app.App) {
 		},
 		{
 			Path:    "cache",
-			Handler: ApiHandler[api.CacheIn, api.CacheOut](testApi.Cache)},
+			Handler: ApiHandler[api.CacheIn, api.CacheOut](testApi.Cache),
+		},
 		{
 			Path:    "lock",
 			Handler: ApiHandler[api.LockIn, api.LockOut](testApi.Lock),
